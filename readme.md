@@ -4,7 +4,8 @@
 ## 📌 Overview
 This repository contains the collected test artifacts produced by our QA team during multiple testing phases of the **OpenCart Demo Website**:
 > https://demo.opencart.com/
-
+and the **end-points of Automation Exercise website**:
+> https://automationexercise.com/api_list
 
 Our efforts focused on planning, executing, and documenting test cycles to ensure the platform's functionality, usability, and quality.
 
@@ -53,5 +54,6 @@ Automation testing implementation and scripts can be found here:
 ## 📦 Repository Contents
 - ✅ Test planning documents
 - ✅ Manual testing artifacts
+- ✅ API testing artifacts
 - ✅ Automation test repository
 - ✅ Execution tracking & progress board
