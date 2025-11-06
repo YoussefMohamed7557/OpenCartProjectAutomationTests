@@ -32,16 +32,15 @@ Below are the main testing deliverables associated with the project:
 
 ### ✅ Test Plan
 A full documented Test Plan describing project scope, strategy, test items, environments, schedules, and responsibilities.
-> https://drive.google.com/file/d/10Akrth2VubuJtUO2JPwHBK0norA34zMt/view?usp=sharing
-
+> [The documentation link on Google drive](https://drive.google.com/file/d/10Akrth2VubuJtUO2JPwHBK0norA34zMt/view?usp=sharing)
 
 ### ✅ Manual and API Test Activity Board
 Trello board used to manage and track manual testing tickets and progress.
-> https://trello.com/b/ogG59xNx/open-cart-graduation-project
+> [Trello board link](https://trello.com/b/ogG59xNx/open-cart-graduation-project)
 
 ### ✅ The collection of the end-points test of Automation Exercise web site
 Trello board used to manage and track manual testing tickets and progress.
-> [https://trello.com/b/ogG59xNx/open-cart-graduation-project](https://drive.google.com/file/d/1cfga9lhRMfwFuwAKcDrmG-NMQUgWHHyr/view)
+> [Collection link on Google drive](https://drive.google.com/file/d/1cfga9lhRMfwFuwAKcDrmG-NMQUgWHHyr/view)
 
 ### ✅ Automation Repository
 Automation testing implementation and scripts can be found here:
