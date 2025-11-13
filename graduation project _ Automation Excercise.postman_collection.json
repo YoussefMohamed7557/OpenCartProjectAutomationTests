@@ -7,12 +7,12 @@
 	},
 	"item": [
 		{
-			"name": "API 3: Get All Brands List _ omar",
+			"name": "API 1:Get All Products List _ omar",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "https://automationexercise.com/api/brandsList",
+					"raw": "https://automationexercise.com/api/productsList",
 					"protocol": "https",
 					"host": [
 						"automationexercise",
@@ -20,7 +20,7 @@
 					],
 					"path": [
 						"api",
-						"brandsList"
+						"productsList"
 					]
 				}
 			},
@@ -32,8 +32,8 @@
 				"method": "POST",
 				"header": [],
 				"body": {
-					"mode": "raw",
-					"raw": "",
+					"mode": "formdata",
+					"formdata": [],
 					"options": {
 						"raw": {
 							"language": "json"
@@ -56,12 +56,12 @@
 			"response": []
 		},
 		{
-			"name": "API 1:Get All Products List _ omar",
+			"name": "API 3: Get All Brands List _ omar",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "https://automationexercise.com/api/productsList",
+					"raw": "https://automationexercise.com/api/brandsList",
 					"protocol": "https",
 					"host": [
 						"automationexercise",
@@ -69,16 +69,285 @@
 					],
 					"path": [
 						"api",
-						"productsList"
+						"brandsList"
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "PUT method to update user account _ youssef",
+			"name": "API 4: PUT To All Brands List _ Abanoub",
 			"request": {
 				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "https://automationexercise.com/api/brandsList",
+					"protocol": "https",
+					"host": [
+						"automationexercise",
+						"com"
+					],
+					"path": [
+						"api",
+						"brandsList"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "API 5: POST To Search Product _ Abanoub",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "search_product",
+							"value": "tshirt",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://automationexercise.com/api/searchProduct",
+					"protocol": "https",
+					"host": [
+						"automationexercise",
+						"com"
+					],
+					"path": [
+						"api",
+						"searchProduct"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "API 6: POST To Search Product without search_product parameter _  Abanoub",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "https://automationexercise.com/api/searchProduct",
+					"protocol": "https",
+					"host": [
+						"automationexercise",
+						"com"
+					],
+					"path": [
+						"api",
+						"searchProduct"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "API 7: POST To Verify Login with valid details _ shrouk",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "email",
+							"value": "ereny@example.com",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "123456",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://automationexercise.com/api/verifyLogin",
+					"protocol": "https",
+					"host": [
+						"automationexercise",
+						"com"
+					],
+					"path": [
+						"api",
+						"verifyLogin"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "API 8: POST To Verify Login without email parameter_ shrouk",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "password",
+							"value": "123456",
+							"type": "text"
+						},
+						{
+							"key": "",
+							"value": "",
+							"type": "text",
+							"disabled": true
+						}
+					]
+				},
+				"url": {
+					"raw": "https://automationexercise.com/api/verifyLogin",
+					"protocol": "https",
+					"host": [
+						"automationexercise",
+						"com"
+					],
+					"path": [
+						"api",
+						"verifyLogin"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "API 9: DELETE To Verify Login _ shrouk",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "",
+							"value": "",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://automationexercise.com/api/verifyLogin",
+					"protocol": "https",
+					"host": [
+						"automationexercise",
+						"com"
+					],
+					"path": [
+						"api",
+						"verifyLogin"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "API 10: POST To Verify Login with invalid details",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});\r",
+							"pm.test(\"Response time is less than 200ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "email",
+							"value": "ereny@exampl",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "123456",
+							"type": "text"
+						}
+					],
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://automationexercise.com/api/verifyLogin",
+					"protocol": "https",
+					"host": [
+						"automationexercise",
+						"com"
+					],
+					"path": [
+						"api",
+						"verifyLogin"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "API 11: POST To Create/Register User Account _ ereny",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Response time is less than 200ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
 				"header": [
 					{
 						"key": "Content-Type",
@@ -90,12 +359,12 @@
 					"urlencoded": [
 						{
 							"key": "name",
-							"value": "ereny",
+							"value": "JohnDoe",
 							"type": "text"
 						},
 						{
 							"key": "email",
-							"value": "ereny@example.com",
+							"value": "shrouk@example.com",
 							"type": "text"
 						},
 						{
@@ -121,6 +390,190 @@
 						{
 							"key": "birth_year",
 							"value": "1998",
+							"type": "text"
+						},
+						{
+							"key": "firstname",
+							"value": "John",
+							"type": "text"
+						},
+						{
+							"key": "lastname",
+							"value": "Doe",
+							"type": "text"
+						},
+						{
+							"key": "company",
+							"value": "ABC Ltd",
+							"type": "text"
+						},
+						{
+							"key": "address1",
+							"value": "Test Street",
+							"type": "text"
+						},
+						{
+							"key": "address2",
+							"value": "Building 12",
+							"type": "text"
+						},
+						{
+							"key": "country",
+							"value": "United States",
+							"type": "text"
+						},
+						{
+							"key": "zipcode",
+							"value": "12345",
+							"type": "text"
+						},
+						{
+							"key": "state",
+							"value": "California",
+							"type": "text"
+						},
+						{
+							"key": "city",
+							"value": "Los Angeles",
+							"type": "text"
+						},
+						{
+							"key": "mobile_number",
+							"value": "1234567890",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://automationexercise.com/api/createAccount",
+					"protocol": "https",
+					"host": [
+						"automationexercise",
+						"com"
+					],
+					"path": [
+						"api",
+						"createAccount"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "API 12: DELETE METHOD To Delete User Account _ ereny",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Response time is less than 200ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "email",
+							"value": "ereny@example.com",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "123456",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://automationexercise.com/api/deleteAccount",
+					"protocol": "https",
+					"host": [
+						"automationexercise",
+						"com"
+					],
+					"path": [
+						"api",
+						"deleteAccount"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "API 13: PUT METHOD To Update User Account _ youssef",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "name",
+							"value": "ereny",
+							"type": "text"
+						},
+						{
+							"key": "email",
+							"value": "shrouk@example.com",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "123456",
+							"type": "text"
+						},
+						{
+							"key": "title",
+							"value": "Mr",
+							"type": "text"
+						},
+						{
+							"key": "birth_date",
+							"value": "10",
+							"type": "text"
+						},
+						{
+							"key": "birth_month",
+							"value": "09",
+							"type": "text"
+						},
+						{
+							"key": "birth_year",
+							"value": "-14",
 							"type": "text"
 						},
 						{
@@ -191,12 +644,12 @@
 			"response": []
 		},
 		{
-			"name": "GET user account details by account _ youssef",
+			"name": "API 14: GET user account detail by email _ youssef",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "https://automationexercise.com/api/getUserDetailByEmail?email=johndoe@example.com",
+					"raw": "https://automationexercise.com/api/getUserDetailByEmail?email=shrouk@example.com",
 					"protocol": "https",
 					"host": [
 						"automationexercise",
@@ -209,83 +662,8 @@
 					"query": [
 						{
 							"key": "email",
-							"value": "johndoe@example.com"
+							"value": "shrouk@example.com"
 						}
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "PUT to all brand list _ Abanoub",
-			"request": {
-				"method": "PUT",
-				"header": [],
-				"url": {
-					"raw": "https://automationexercise.com/api/brandsList",
-					"protocol": "https",
-					"host": [
-						"automationexercise",
-						"com"
-					],
-					"path": [
-						"api",
-						"brandsList"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "POST to search product _ Abanoub",
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/x-www-form-urlencoded"
-					}
-				],
-				"body": {
-					"mode": "urlencoded",
-					"urlencoded": [
-						{
-							"key": "search_product",
-							"value": "tshirt",
-							"type": "text"
-						}
-					]
-				},
-				"url": {
-					"raw": "https://automationexercise.com/api/searchProduct",
-					"protocol": "https",
-					"host": [
-						"automationexercise",
-						"com"
-					],
-					"path": [
-						"api",
-						"searchProduct"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "POST search product without search product parameter _  Abanoub",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"url": {
-					"raw": "https://automationexercise.com/api/searchProduct",
-					"protocol": "https",
-					"host": [
-						"automationexercise",
-						"com"
-					],
-					"path": [
-						"api",
-						"searchProduct"
 					]
 				}
 			},
