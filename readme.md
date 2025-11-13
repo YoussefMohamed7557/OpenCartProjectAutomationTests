@@ -38,6 +38,7 @@ A full documented Test Plan describing project scope, strategy, test items, envi
 ### ✅ Manual and API Test Activity Board
 Trello board used to manage and track manual testing tickets and progress.
 > [Trello board link](https://trello.com/b/ogG59xNx/open-cart-graduation-project)
+> [Jira board link](https://forexzig-team-kxhlnviy.atlassian.net/projects/AUT?selectedItem=com.atlassian.plugins.atlassian-connect-plugin:com.xpandit.plugins.xray__testing-board#!page=test-repository&selectedFolder=691456555f719f9695f8dfff)
 
 ### ✅ The collection of the end-points test of Automation Exercise web site
 Trello board used to manage and track manual testing tickets and progress.
