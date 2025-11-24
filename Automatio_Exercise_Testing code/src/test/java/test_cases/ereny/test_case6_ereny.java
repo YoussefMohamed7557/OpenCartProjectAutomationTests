@@ -1,5 +1,5 @@
 package test_cases.ereny;
 
-public class test_case4_ereny {
+public class test_case6_ereny {
     //gggggggggggggggg
 }
