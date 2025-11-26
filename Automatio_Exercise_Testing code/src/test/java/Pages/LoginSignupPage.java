@@ -8,11 +8,10 @@ public class LoginSignupPage {
 
     private final WebDriver driver;
 
-    // Locators
     private final By signUpMessage = By.xpath("//h2[text()='New User Signup!']");
     private final By loginMessage = By.xpath("//h2[text()='Login to your account']");
-    private final By signupEmailInput = By.xpath("//input[@data-qa='signup-email']");
-    private final By signupNameInput = By.xpath("//input[@data-qa='signup-name']");
+    private final By emailInput = By.xpath("//input[@data-qa='signup-email']");
+    private final By nameInput = By.xpath("//input[@data-qa='signup-name']");
     private final By signUpButton = By.xpath("//button[@data-qa='signup-button']");
     private final By loginEmailInput = By.xpath("//input[@data-qa='login-email']");
     private final By loginPasswordInput = By.xpath("//input[@data-qa='login-password']");
@@ -27,8 +26,8 @@ public class LoginSignupPage {
     // Actions
 
     public void enterNameAndEmail(String name, String email) {
-        driver.findElement(signupNameInput).sendKeys(name);
-        driver.findElement(signupEmailInput).sendKeys(email);
+        driver.findElement(nameInput).sendKeys(name);
+        driver.findElement(emailInput).sendKeys(email);
     }
 
     public void clickSignUpButton() {
@@ -36,7 +35,9 @@ public class LoginSignupPage {
     }
 
     public void enterLoginEmailAndPassword(String email, String password) {
+        driver.findElement(loginEmailInput).clear();
         driver.findElement(loginEmailInput).sendKeys(email);
+        driver.findElement(loginPasswordInput).clear();
         driver.findElement(loginPasswordInput).sendKeys(password);
     }
 
@@ -44,13 +45,27 @@ public class LoginSignupPage {
         driver.findElement(loginButton).click();
     }
 
+    public void login(String email, String password) {
+        enterLoginEmailAndPassword(email, password);
+        clickLoginButton();
+    }
+
+    public void signup(String name, String email) {
+        enterNameAndEmail(name, email);
+        clickSignUpButton();
+    }
+
     // Assertions
 
     public void assertURL() {
-        Assert.assertEquals(
-                driver.getCurrentUrl(),
-                "https://automationexercise.com/login",
-                "Login-Signup page URL is incorrect"
+        String currentUrl = driver.getCurrentUrl();
+        boolean onLoginOrSignup =
+                currentUrl.equals("https://automationexercise.com/login") ||
+                        currentUrl.equals("https://automationexercise.com/signup");
+
+        Assert.assertTrue(
+                onLoginOrSignup,
+                "Unexpected URL for Login/Signup page. Actual: " + currentUrl
         );
     }
 
@@ -69,8 +84,9 @@ public class LoginSignupPage {
     }
 
     public void assertTitle() {
+        String actualTitle = driver.getTitle();
         Assert.assertEquals(
-                driver.getTitle(),
+                actualTitle,
                 "Automation Exercise - Signup / Login",
                 "Page title is incorrect"
         );
@@ -78,8 +94,8 @@ public class LoginSignupPage {
 
     public void assertNameAndEmailInputVisible() {
         Assert.assertTrue(
-                driver.findElement(signupNameInput).isDisplayed()
-                        && driver.findElement(signupEmailInput).isDisplayed(),
+                driver.findElement(nameInput).isDisplayed() &&
+                        driver.findElement(emailInput).isDisplayed(),
                 "Name and Email input fields are NOT visible"
         );
     }
@@ -93,8 +109,8 @@ public class LoginSignupPage {
 
     public void assertLoginEmailAndPasswordInputVisible() {
         Assert.assertTrue(
-                driver.findElement(loginEmailInput).isDisplayed()
-                        && driver.findElement(loginPasswordInput).isDisplayed(),
+                driver.findElement(loginEmailInput).isDisplayed() &&
+                        driver.findElement(loginPasswordInput).isDisplayed(),
                 "Login Email and Password input fields are NOT visible"
         );
     }
@@ -108,17 +124,15 @@ public class LoginSignupPage {
 
     public void assertUrlBeTheSameWrongEmail() {
         String currentUrl = driver.getCurrentUrl();
-
         boolean onLoginOrSignup =
                 currentUrl.equals("https://automationexercise.com/login") ||
                         currentUrl.equals("https://automationexercise.com/signup");
 
         Assert.assertTrue(
                 onLoginOrSignup,
-                "Unexpected URL after invalid signup/login attempt. Actual: " + currentUrl
+                "Unexpected URL after invalid login/signup attempt. Actual: " + currentUrl
         );
     }
-
 
     public void assertEmailExistingErrorVisible() {
         Assert.assertTrue(

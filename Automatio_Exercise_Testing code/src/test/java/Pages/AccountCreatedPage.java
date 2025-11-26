@@ -8,7 +8,6 @@ public class AccountCreatedPage {
 
     private final WebDriver driver;
 
-    // Locators
     private final By accountCreatedMessage = By.xpath("//h2[@data-qa='account-created']");
     private final By continueButton = By.xpath("//a[@data-qa='continue-button']");
 
@@ -16,12 +15,10 @@ public class AccountCreatedPage {
         this.driver = driver;
     }
 
-    // Actions
     public void clickContinueButton() {
         driver.findElement(continueButton).click();
     }
 
-    // Assertions
     public void assertAccountCreatedMsgVisible() {
         Assert.assertTrue(
                 driver.findElement(accountCreatedMessage).isDisplayed(),

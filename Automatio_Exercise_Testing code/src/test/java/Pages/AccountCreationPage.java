@@ -9,7 +9,6 @@ public class AccountCreationPage {
 
     private final WebDriver driver;
 
-    // Locators
     private final By titleMrRadio = By.id("id_gender1");
     private final By titleMrsRadio = By.id("id_gender2");
     private final By passwordInput = By.id("password");
@@ -46,6 +45,7 @@ public class AccountCreationPage {
     }
 
     public void enterPassword(String password) {
+        driver.findElement(passwordInput).clear();
         driver.findElement(passwordInput).sendKeys(password);
     }
 
@@ -62,34 +62,35 @@ public class AccountCreationPage {
     }
 
     public void checkNewsletter() {
-        if (!driver.findElement(newsletterCheckbox).isSelected()) {
-            driver.findElement(newsletterCheckbox).click();
-        }
+        driver.findElement(newsletterCheckbox).click();
     }
 
     public void checkOffers() {
-        if (!driver.findElement(offersCheckbox).isSelected()) {
-            driver.findElement(offersCheckbox).click();
-        }
+        driver.findElement(offersCheckbox).click();
     }
 
     public void enterFirstName(String firstName) {
+        driver.findElement(firstNameInput).clear();
         driver.findElement(firstNameInput).sendKeys(firstName);
     }
 
     public void enterLastName(String lastName) {
+        driver.findElement(lastNameInput).clear();
         driver.findElement(lastNameInput).sendKeys(lastName);
     }
 
     public void enterCompany(String company) {
+        driver.findElement(companyInput).clear();
         driver.findElement(companyInput).sendKeys(company);
     }
 
     public void enterAddress1(String address1) {
+        driver.findElement(address1Input).clear();
         driver.findElement(address1Input).sendKeys(address1);
     }
 
     public void enterAddress2(String address2) {
+        driver.findElement(address2Input).clear();
         driver.findElement(address2Input).sendKeys(address2);
     }
 
@@ -98,23 +99,49 @@ public class AccountCreationPage {
     }
 
     public void enterState(String state) {
+        driver.findElement(stateInput).clear();
         driver.findElement(stateInput).sendKeys(state);
     }
 
     public void enterCity(String city) {
+        driver.findElement(cityInput).clear();
         driver.findElement(cityInput).sendKeys(city);
     }
 
     public void enterZipCode(String zipCode) {
+        driver.findElement(zipCodeInput).clear();
         driver.findElement(zipCodeInput).sendKeys(zipCode);
     }
 
     public void enterMobileNumber(String mobileNumber) {
+        driver.findElement(mobileNumberInput).clear();
         driver.findElement(mobileNumberInput).sendKeys(mobileNumber);
     }
 
     public void clickCreateAccountButton() {
         driver.findElement(createAccountButton).click();
+    }
+
+    public void fillMandatoryAddressInfo(
+            String firstName,
+            String lastName,
+            String company,
+            String address1,
+            String country,
+            String state,
+            String city,
+            String zipCode,
+            String mobileNumber
+    ) {
+        enterFirstName(firstName);
+        enterLastName(lastName);
+        enterCompany(company);
+        enterAddress1(address1);
+        selectCountry(country);
+        enterState(state);
+        enterCity(city);
+        enterZipCode(zipCode);
+        enterMobileNumber(mobileNumber);
     }
 
     // Assertions

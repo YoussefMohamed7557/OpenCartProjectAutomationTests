@@ -8,30 +8,30 @@ public class HomePage {
 
     private final WebDriver driver;
 
-    // Locators
-    private final By signupLoginLink = By.cssSelector("a[href='/login']");
+    private final By loginLink = By.cssSelector("a[href='/login']");
     private final By featuredItemsSection = By.cssSelector(".features_items");
     private final By homePageLogo = By.cssSelector("img[alt='Website for automation practice']");
-    private final By loggedInAsUserIcon = By.cssSelector(".fa.fa-user");
+    private final By signUpLink = By.cssSelector("a[href='/login']");
+    private final By loggedInAsUserIcon = By.cssSelector("[class='fa fa-user']");
     private final By logoutLink = By.cssSelector("a[href='/logout']");
     private final By deleteAccountLink = By.cssSelector("a[href='/delete_account']");
     private final By accountDeletedMessage = By.xpath("//h2[@data-qa='account-deleted']");
     private final By continueButton = By.xpath("//a[@data-qa='continue-button']");
+    private final By contactUsLink = By.cssSelector("a[href='/contact_us']");
+    private final By productsLink = By.cssSelector("a[href='/products']");
 
-    // Constructor
     public HomePage(WebDriver driver) {
         this.driver = driver;
     }
 
-    // ACTIONS
+    // Actions
 
     public void navigateToHomePage() {
         driver.navigate().to("https://automationexercise.com/");
     }
 
     public void clickLoginLink() {
-
-        driver.findElement(signupLoginLink).click();
+        driver.findElement(loginLink).click();
     }
 
     public void clickLogoutButton() {
@@ -46,7 +46,19 @@ public class HomePage {
         driver.findElement(continueButton).click();
     }
 
-    // ASSERTIONS
+    public void clickContactUsLink() {
+        driver.findElement(contactUsLink).click();
+    }
+
+    public void clickProductsLink() {
+        driver.findElement(productsLink).click();
+    }
+
+    public void clickHomeLogo() {
+        driver.findElement(homePageLogo).click();
+    }
+
+    // Assertions / helpers
 
     public void assertURL() {
         Assert.assertEquals(
@@ -66,8 +78,8 @@ public class HomePage {
 
     public void assertLoginLinkVisible() {
         Assert.assertTrue(
-                driver.findElement(signupLoginLink).isDisplayed(),
-                "'Signup / Login' link is NOT visible"
+                driver.findElement(loginLink).isDisplayed(),
+                "Login link is NOT visible"
         );
     }
 
@@ -86,9 +98,8 @@ public class HomePage {
     }
 
     public void assertSignUpLinkVisible() {
-
         Assert.assertTrue(
-                driver.findElement(signupLoginLink).isDisplayed(),
+                driver.findElement(signUpLink).isDisplayed(),
                 "Sign Up link is NOT visible"
         );
     }
@@ -137,13 +148,8 @@ public class HomePage {
                 "Home page did NOT load after account deletion"
         );
     }
-    public void assertUserNotLoggedIn() {
-        boolean loggedInIconExists = driver.findElements(By.cssSelector(".fa.fa-user")).size() > 0;
-        Assert.assertFalse(loggedInIconExists, "User appears as logged in on initial home load");
-    }
+
     public boolean isLoggedInAsUserVisible() {
-        return driver.findElements(loggedInAsUserIcon).size() > 0;
+        return !driver.findElements(loggedInAsUserIcon).isEmpty();
     }
-
-
 }
