@@ -6,46 +6,47 @@ import org.testng.Assert;
 
 public class HomePage {
 
-    WebDriver driver;
+    private final WebDriver driver;
 
+    // Locators
+    private final By signupLoginLink = By.cssSelector("a[href='/login']");
+    private final By featuredItemsSection = By.cssSelector(".features_items");
+    private final By homePageLogo = By.cssSelector("img[alt='Website for automation practice']");
+    private final By loggedInAsUserIcon = By.cssSelector(".fa.fa-user");
+    private final By logoutLink = By.cssSelector("a[href='/logout']");
+    private final By deleteAccountLink = By.cssSelector("a[href='/delete_account']");
+    private final By accountDeletedMessage = By.xpath("//h2[@data-qa='account-deleted']");
+    private final By continueButton = By.xpath("//a[@data-qa='continue-button']");
+
+    // Constructor
     public HomePage(WebDriver driver) {
         this.driver = driver;
     }
 
-    //Locators
-    By loginLink_Btn = By.cssSelector("a[href='/login']");
-    By featuredItemsSection = By.cssSelector(".features_items");
-    By homePageLogo = By.cssSelector("img[alt='Website for automation practice']");
-    By signUpLink_Btn = By.cssSelector("a[href='/login']");
-    By loggedInAsUser = By.cssSelector("[class=\"fa fa-user\"]");
-    By logoutLink_Btn = By.cssSelector("a[href='/logout']");
-    By clickDeleteAccountButton = By.cssSelector("a[href='/delete_account']");
-    By accountDeletedMessage = By.xpath("//h2[@data-qa='account-deleted']");
-    By contiuneButton = By.xpath("//a[@data-qa='continue-button']");
+    // ACTIONS
 
-
-    //ACTION
     public void navigateToHomePage() {
         driver.navigate().to("https://automationexercise.com/");
     }
 
     public void clickLoginLink() {
-        driver.findElement(loginLink_Btn).click();
+
+        driver.findElement(signupLoginLink).click();
     }
 
     public void clickLogoutButton() {
-        driver.findElement(logoutLink_Btn).click();
+        driver.findElement(logoutLink).click();
     }
 
     public void clickDeleteAccountButton() {
-        driver.findElement(clickDeleteAccountButton).click();
+        driver.findElement(deleteAccountLink).click();
     }
 
     public void clickContinueButton() {
-        driver.findElement(contiuneButton).click();
+        driver.findElement(continueButton).click();
     }
 
-    //ASSERTION
+    // ASSERTIONS
 
     public void assertURL() {
         Assert.assertEquals(
@@ -65,8 +66,8 @@ public class HomePage {
 
     public void assertLoginLinkVisible() {
         Assert.assertTrue(
-                driver.findElement(loginLink_Btn).isDisplayed(),
-                "Login link is NOT visible"
+                driver.findElement(signupLoginLink).isDisplayed(),
+                "'Signup / Login' link is NOT visible"
         );
     }
 
@@ -85,22 +86,23 @@ public class HomePage {
     }
 
     public void assertSignUpLinkVisible() {
+
         Assert.assertTrue(
-                driver.findElement(signUpLink_Btn).isDisplayed(),
+                driver.findElement(signupLoginLink).isDisplayed(),
                 "Sign Up link is NOT visible"
         );
     }
 
     public void assertLoggedInAsUserVisible() {
         Assert.assertTrue(
-                driver.findElement(loggedInAsUser).isDisplayed(),
+                driver.findElement(loggedInAsUserIcon).isDisplayed(),
                 "\"Logged in as user\" is NOT visible"
         );
     }
 
     public void assertLogoutLinkVisible() {
         Assert.assertTrue(
-                driver.findElement(logoutLink_Btn).isDisplayed(),
+                driver.findElement(logoutLink).isDisplayed(),
                 "Logout link is NOT visible"
         );
     }
@@ -119,4 +121,29 @@ public class HomePage {
                 "Account Deleted message is NOT visible"
         );
     }
+
+    public void assertLoginPageLoadedAfterLogout() {
+        Assert.assertEquals(
+                driver.getCurrentUrl(),
+                "https://automationexercise.com/login",
+                "Login page did NOT load after logout"
+        );
+    }
+
+    public void assertHomePageLoadedAfterAccountDeletion() {
+        Assert.assertEquals(
+                driver.getCurrentUrl(),
+                "https://automationexercise.com/",
+                "Home page did NOT load after account deletion"
+        );
+    }
+    public void assertUserNotLoggedIn() {
+        boolean loggedInIconExists = driver.findElements(By.cssSelector(".fa.fa-user")).size() > 0;
+        Assert.assertFalse(loggedInIconExists, "User appears as logged in on initial home load");
+    }
+    public boolean isLoggedInAsUserVisible() {
+        return driver.findElements(loggedInAsUserIcon).size() > 0;
+    }
+
+
 }
