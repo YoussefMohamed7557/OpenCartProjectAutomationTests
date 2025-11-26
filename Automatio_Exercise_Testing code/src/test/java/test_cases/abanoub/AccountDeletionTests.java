@@ -15,12 +15,10 @@ public class AccountDeletionTests extends TestBase {
         homePage.navigateToHomePage();
         homePage.clickLoginLink();
 
-        loginSignupPage.enterLoginEmailAndPassword("abanoub03@gmail.com", "1122334455");
-        loginSignupPage.clickLoginButton();
+        loginSignupPage.login("abanoub03@gmail.com", "1122334455");
 
         homePage.assertLoggedInAsUserVisible();
         homePage.clickDeleteAccountButton();
-
         homePage.assertAccountDeletedMessageVisible();
         homePage.clickContinueButton();
         homePage.assertHomePageLoadedAfterAccountDeletion();
