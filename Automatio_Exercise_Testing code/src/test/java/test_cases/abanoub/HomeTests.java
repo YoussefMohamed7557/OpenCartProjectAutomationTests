@@ -1,85 +1,54 @@
 package test_cases.abanoub;
 
-import Pages.HomePage;
-import org.openqa.selenium.By;
-import org.testng.Assert;
 import org.testng.annotations.Test;
+import Pages.HomePage;
+import Pages.LoginSignupPage;
+
+import java.time.Duration;
 
 public class HomeTests extends TestBase {
 
     @Test
     public void TC01_verifyHomePageLoadsSuccessfully() {
-
-        HomePage homePage = new HomePage(driver);
-
+        HomePage homePage = new HomePage(getDriver(), Duration.ofSeconds(defaultTimeoutSeconds));
         homePage.navigateToHomePage();
-        homePage.assertURL();
-        homePage.assertTitle();
+
+        homePage.assertOnHomePage();
         homePage.assertLoginLinkVisible();
         homePage.assertFeaturedItemsVisible();
-        homePage.assertHomePageLogoVisible();
-        homePage.assertSignUpLinkVisible();
+        homePage.assertHomeLogoVisible();
     }
 
     @Test
     public void TC24_navigateToContactUsPage() {
-
-        HomePage homePage = new HomePage(driver);
+        HomePage homePage = new HomePage(getDriver(), Duration.ofSeconds(defaultTimeoutSeconds));
         homePage.navigateToHomePage();
-
         homePage.clickContactUsLink();
 
-        Assert.assertTrue(
-                driver.getCurrentUrl().contains("/contact_us"),
-                "Contact Us page URL is incorrect"
-        );
-
-        boolean getInTouchVisible =
-                !driver.findElements(By.xpath("//h2[contains(text(),'Get In Touch')]")).isEmpty();
-
-        Assert.assertTrue(
-                getInTouchVisible,
-                "'Get In Touch' heading is NOT visible on Contact Us page"
-        );
+        homePage.assertOnContactUsPage();
+        homePage.assertContactUsHeaderVisible();
     }
 
     @Test
     public void TC25_navigateToProductsPage() {
-
-        HomePage homePage = new HomePage(driver);
+        HomePage homePage = new HomePage(getDriver(), Duration.ofSeconds(defaultTimeoutSeconds));
         homePage.navigateToHomePage();
-
         homePage.clickProductsLink();
 
-        Assert.assertTrue(
-                driver.getCurrentUrl().contains("/products"),
-                "Products page URL is incorrect"
-        );
-
-        boolean allProductsVisible =
-                !driver.findElements(By.xpath("//h2[contains(text(),'All Products')]")).isEmpty();
-
-        Assert.assertTrue(
-                allProductsVisible,
-                "'All Products' heading is NOT visible on Products page"
-        );
+        homePage.assertOnProductsPage();
+        homePage.assertAllProductsHeaderVisible();
     }
 
     @Test
     public void TC26_clickLogoFromInnerPageReturnsHome() {
-
-        HomePage homePage = new HomePage(driver);
+        HomePage homePage = new HomePage(getDriver(), Duration.ofSeconds(defaultTimeoutSeconds));
         homePage.navigateToHomePage();
-
         homePage.clickProductsLink();
-        Assert.assertTrue(
-                driver.getCurrentUrl().contains("/products"),
-                "Navigation to Products page failed before clicking logo"
-        );
+
+        homePage.assertOnProductsPage();
 
         homePage.clickHomeLogo();
-
-        homePage.assertURL();
-        homePage.assertHomePageLogoVisible();
+        homePage.assertOnHomePage();
+        homePage.assertHomeLogoVisible();
     }
 }

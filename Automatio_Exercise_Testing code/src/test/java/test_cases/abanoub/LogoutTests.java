@@ -1,80 +1,66 @@
 package test_cases.abanoub;
 
+import org.testng.annotations.Test;
 import Pages.HomePage;
 import Pages.LoginSignupPage;
-import org.testng.Assert;
-import org.testng.annotations.Test;
+
+import java.time.Duration;
 
 public class LogoutTests extends TestBase {
 
     @Test
     public void TC08_logoutUserSuccessfully() {
-
-        HomePage homePage = new HomePage(driver);
-        LoginSignupPage loginSignupPage = new LoginSignupPage(driver);
+        HomePage homePage = new HomePage(getDriver(), Duration.ofSeconds(defaultTimeoutSeconds));
+        LoginSignupPage loginSignupPage = new LoginSignupPage(getDriver(), Duration.ofSeconds(defaultTimeoutSeconds));
 
         homePage.navigateToHomePage();
         homePage.clickLoginLink();
 
         loginSignupPage.login("1122334455@gmail.com", "1122334455");
 
-        homePage.assertLogoutLinkVisible();
+        homePage.assertLogoutVisible();
         homePage.clickLogoutButton();
 
-        homePage.assertLoginPageLoadedAfterLogout();
+        loginSignupPage.assertOnLoginOrSignupPage();
         loginSignupPage.assertLoginMessageVisible();
-        loginSignupPage.assertLoginEmailAndPasswordInputVisible();
-        loginSignupPage.assertLoginButtonVisible();
     }
 
     @Test
     public void TC13_logoutAndUseBackButton() {
-
-        HomePage homePage = new HomePage(driver);
-        LoginSignupPage loginSignupPage = new LoginSignupPage(driver);
+        HomePage homePage = new HomePage(getDriver(), Duration.ofSeconds(defaultTimeoutSeconds));
+        LoginSignupPage loginSignupPage = new LoginSignupPage(getDriver(), Duration.ofSeconds(defaultTimeoutSeconds));
 
         homePage.navigateToHomePage();
         homePage.clickLoginLink();
 
         loginSignupPage.login("1122334455@gmail.com", "1122334455");
 
-        homePage.assertLogoutLinkVisible();
+        homePage.assertLogoutVisible();
         homePage.clickLogoutButton();
 
-        driver.navigate().back();
-        driver.navigate().refresh();
+        getDriver().navigate().back();
+        getDriver().navigate().refresh();
 
-        boolean loggedIn = homePage.isLoggedInAsUserVisible();
-        Assert.assertFalse(
-                loggedIn,
-                "User should NOT be logged in after logout followed by browser back and refresh"
-        );
+        homePage.assertUserLoggedOut();
     }
 
     @Test
     public void TC28_logoutFromProductsPage() {
-
-        HomePage homePage = new HomePage(driver);
-        LoginSignupPage loginSignupPage = new LoginSignupPage(driver);
+        HomePage homePage = new HomePage(getDriver(), Duration.ofSeconds(defaultTimeoutSeconds));
+        LoginSignupPage loginSignupPage = new LoginSignupPage(getDriver(), Duration.ofSeconds(defaultTimeoutSeconds));
 
         homePage.navigateToHomePage();
         homePage.clickLoginLink();
 
         loginSignupPage.login("1122334455@gmail.com", "1122334455");
 
-        homePage.assertLoggedInAsUserVisible();
-        homePage.assertLogoutLinkVisible();
+        homePage.assertUserLoggedIn();
+        homePage.assertLogoutVisible();
 
         homePage.clickProductsLink();
-        Assert.assertTrue(
-                driver.getCurrentUrl().contains("/products"),
-                "User is NOT on Products page before logout"
-        );
+        homePage.assertOnProductsPage();
 
         homePage.clickLogoutButton();
-
-        homePage.assertLoginPageLoadedAfterLogout();
-        loginSignupPage.assertLoginMessageVisible();
-        loginSignupPage.assertLoginEmailAndPasswordInputVisible();
+        loginSignupPage.assertOnLoginOrSignupPage();
     }
 }

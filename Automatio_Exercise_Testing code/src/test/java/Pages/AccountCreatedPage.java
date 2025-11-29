@@ -2,27 +2,46 @@ package Pages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import java.time.Duration;
 import org.testng.Assert;
 
-public class AccountCreatedPage {
+public class AccountCreatedPage extends BasePage {
 
-    private final WebDriver driver;
-
+    // ---------------------------
+    // Locators
+    // ---------------------------
     private final By accountCreatedMessage = By.xpath("//h2[@data-qa='account-created']");
     private final By continueButton = By.xpath("//a[@data-qa='continue-button']");
 
-    public AccountCreatedPage(WebDriver driver) {
-        this.driver = driver;
+    // ---------------------------
+    // Constructor
+    // ---------------------------
+    public AccountCreatedPage(WebDriver driver, Duration timeout) {
+        super(driver, timeout);
     }
 
-    public void clickContinueButton() {
-        driver.findElement(continueButton).click();
+    // ---------------------------
+    // Actions
+    // ---------------------------
+    public void clickContinueButton() { waitAndClick(continueButton); }
+
+    // ---------------------------
+    // State/Getters
+    // ---------------------------
+    public boolean isAccountCreatedMessageVisible() { return isVisible(accountCreatedMessage); }
+
+    private boolean isAccountCreatedMarkerInSource() {
+        return getPageSource().contains("account-created");
     }
 
-    public void assertAccountCreatedMsgVisible() {
-        Assert.assertTrue(
-                driver.findElement(accountCreatedMessage).isDisplayed(),
-                "Account Created message is NOT visible"
-        );
+    // ---------------------------
+    // Assertions
+    // ---------------------------
+    public void assertAccountCreatedMessageVisible() {
+        Assert.assertTrue(isAccountCreatedMessageVisible(), "Account created message should be visible");
+    }
+
+    public void assertAccountNotCreatedInSource() {
+        Assert.assertFalse(isAccountCreatedMarkerInSource(), "Account should NOT be created when password is missing");
     }
 }

@@ -1,13 +1,16 @@
 package Pages;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
+import java.time.Duration;
 import org.testng.Assert;
 
-public class LoginSignupPage {
+public class LoginSignupPage extends BasePage {
 
-    private final WebDriver driver;
-
+    // ---------------------------
+    // Locators
+    // ---------------------------
     private final By signUpMessage = By.xpath("//h2[text()='New User Signup!']");
     private final By loginMessage = By.xpath("//h2[text()='Login to your account']");
     private final By emailInput = By.xpath("//input[@data-qa='signup-email']");
@@ -18,133 +21,107 @@ public class LoginSignupPage {
     private final By loginButton = By.xpath("//button[@data-qa='login-button']");
     private final By emailIsExistingError = By.xpath("//p[text()='Email Address already exist!']");
     private final By wrongEmailOrPasswordError = By.xpath("//p[text()='Your email or password is incorrect!']");
+    private final By genericError = By.cssSelector(".error, .alert, p[style*='color']");
 
-    public LoginSignupPage(WebDriver driver) {
-        this.driver = driver;
+    // ---------------------------
+    // Constructor
+    // ---------------------------
+    public LoginSignupPage(WebDriver driver, Duration timeout) {
+        super(driver, timeout);
     }
 
+    // ---------------------------
     // Actions
+    // ---------------------------
+    public void enterName(String name) { waitAndSendKeys(nameInput, name); }
+    public void enterSignupEmail(String email) { waitAndSendKeys(emailInput, email); }
+    public void clickSignUpButton() { waitAndClick(signUpButton); }
+    public void enterLoginEmail(String email) { waitAndSendKeys(loginEmailInput, email); }
+    public void enterLoginPassword(String password) { waitAndSendKeys(loginPasswordInput, password); }
+    public void clickLoginButton() { waitAndClick(loginButton); }
 
-    public void enterNameAndEmail(String name, String email) {
-        driver.findElement(nameInput).sendKeys(name);
-        driver.findElement(emailInput).sendKeys(email);
-    }
-
-    public void clickSignUpButton() {
-        driver.findElement(signUpButton).click();
-    }
-
-    public void enterLoginEmailAndPassword(String email, String password) {
-        driver.findElement(loginEmailInput).clear();
-        driver.findElement(loginEmailInput).sendKeys(email);
-        driver.findElement(loginPasswordInput).clear();
-        driver.findElement(loginPasswordInput).sendKeys(password);
-    }
-
-    public void clickLoginButton() {
-        driver.findElement(loginButton).click();
-    }
-
-    public void login(String email, String password) {
-        enterLoginEmailAndPassword(email, password);
-        clickLoginButton();
+    public void pressEnterOnPassword() {
+        waitForVisible(loginPasswordInput).sendKeys(Keys.ENTER);
+        waitForPageLoad();
     }
 
     public void signup(String name, String email) {
-        enterNameAndEmail(name, email);
+        enterName(name);
+        enterSignupEmail(email);
         clickSignUpButton();
     }
 
-    // Assertions
-
-    public void assertURL() {
-        String currentUrl = driver.getCurrentUrl();
-        boolean onLoginOrSignup =
-                currentUrl.equals("https://automationexercise.com/login") ||
-                        currentUrl.equals("https://automationexercise.com/signup");
-
-        Assert.assertTrue(
-                onLoginOrSignup,
-                "Unexpected URL for Login/Signup page. Actual: " + currentUrl
-        );
+    public void login(String email, String password) {
+        enterLoginEmail(email);
+        enterLoginPassword(password);
+        clickLoginButton();
     }
 
-    public void assertSignUpMessageVisible() {
-        Assert.assertTrue(
-                driver.findElement(signUpMessage).isDisplayed(),
-                "SignUp message is NOT visible"
-        );
+    // ---------------------------
+    // State/Getters
+    // ---------------------------
+    public boolean isSignUpMessageVisible() { return isVisible(signUpMessage); }
+    public boolean isLoginMessageVisible() { return isVisible(loginMessage); }
+    public boolean areSignupInputsVisible() { return isVisible(nameInput) && isVisible(emailInput); }
+    public boolean areLoginInputsVisible() { return isVisible(loginEmailInput) && isVisible(loginPasswordInput); }
+    public boolean isEmailExistingErrorVisible() { return isVisible(emailIsExistingError); }
+    public boolean isWrongEmailOrPasswordErrorVisible() { return isVisible(wrongEmailOrPasswordError); }
+
+    public String getVisibleErrorMessageText() {
+        String text = safeGetText(genericError);
+        if (text.isEmpty()) {
+            if (isEmailExistingErrorVisible()) return safeGetText(emailIsExistingError);
+            if (isWrongEmailOrPasswordErrorVisible()) return safeGetText(wrongEmailOrPasswordError);
+            return "";
+        }
+        return text;
+    }
+
+    public boolean isOnLoginOrSignupPage() {
+        String current = driver.getCurrentUrl();
+        return current.contains("/login") || current.contains("/signup");
+    }
+
+    public String getTitle() { return driver.getTitle(); }
+
+    // ---------------------------
+    // Assertions
+    // ---------------------------
+    public void assertOnLoginOrSignupPage() {
+        String current = driver.getCurrentUrl();
+        Assert.assertTrue(isOnLoginOrSignupPage(), "Expected to be on login/signup page, but URL was: " + current);
+    }
+
+    public void assertLoginSignupTitleIsCorrect() {
+        Assert.assertEquals(getTitle(), "Automation Exercise - Signup / Login", "Page title mismatch for Signup/Login page");
+    }
+
+    public void assertWrongCredentialsErrorVisible() {
+        Assert.assertTrue(isWrongEmailOrPasswordErrorVisible(), "Wrong credentials error should be visible");
+    }
+
+    public void assertEmailAlreadyExistsErrorVisible() {
+        Assert.assertTrue(isEmailExistingErrorVisible(), "Email already exists error should be visible");
+    }
+
+    public void assertSignupInputsVisible() {
+        Assert.assertTrue(areSignupInputsVisible(), "Signup inputs should be visible");
+    }
+
+    public void assertLoginInputsVisible() {
+        Assert.assertTrue(areLoginInputsVisible(), "Login inputs should be visible");
     }
 
     public void assertLoginMessageVisible() {
-        Assert.assertTrue(
-                driver.findElement(loginMessage).isDisplayed(),
-                "Login message is NOT visible"
-        );
+        Assert.assertTrue(isLoginMessageVisible(), "Login message should be visible");
     }
 
-    public void assertTitle() {
-        String actualTitle = driver.getTitle();
-        Assert.assertEquals(
-                actualTitle,
-                "Automation Exercise - Signup / Login",
-                "Page title is incorrect"
-        );
+    public void assertSignUpMessageVisible() {
+        Assert.assertTrue(isSignUpMessageVisible(), "Sign up message should be visible");
     }
 
-    public void assertNameAndEmailInputVisible() {
-        Assert.assertTrue(
-                driver.findElement(nameInput).isDisplayed() &&
-                        driver.findElement(emailInput).isDisplayed(),
-                "Name and Email input fields are NOT visible"
-        );
-    }
-
-    public void assertSignUpButtonVisible() {
-        Assert.assertTrue(
-                driver.findElement(signUpButton).isDisplayed(),
-                "SignUp button is NOT visible"
-        );
-    }
-
-    public void assertLoginEmailAndPasswordInputVisible() {
-        Assert.assertTrue(
-                driver.findElement(loginEmailInput).isDisplayed() &&
-                        driver.findElement(loginPasswordInput).isDisplayed(),
-                "Login Email and Password input fields are NOT visible"
-        );
-    }
-
-    public void assertLoginButtonVisible() {
-        Assert.assertTrue(
-                driver.findElement(loginButton).isDisplayed(),
-                "Login button is NOT visible"
-        );
-    }
-
-    public void assertUrlBeTheSameWrongEmail() {
-        String currentUrl = driver.getCurrentUrl();
-        boolean onLoginOrSignup =
-                currentUrl.equals("https://automationexercise.com/login") ||
-                        currentUrl.equals("https://automationexercise.com/signup");
-
-        Assert.assertTrue(
-                onLoginOrSignup,
-                "Unexpected URL after invalid login/signup attempt. Actual: " + currentUrl
-        );
-    }
-
-    public void assertEmailExistingErrorVisible() {
-        Assert.assertTrue(
-                driver.findElement(emailIsExistingError).isDisplayed(),
-                "Email already exist error is NOT visible"
-        );
-    }
-
-    public void assertWrongEmailOrPasswordErrorVisible() {
-        Assert.assertTrue(
-                driver.findElement(wrongEmailOrPasswordError).isDisplayed(),
-                "Wrong email or password error is NOT visible"
-        );
+    public void assertStayedOnSignupOrLoginAfterInvalidData() {
+        String current = driver.getCurrentUrl();
+        Assert.assertTrue(isOnLoginOrSignupPage(), "User should remain on signup/login page after invalid data, but URL was: " + current);
     }
 }

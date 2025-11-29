@@ -2,154 +2,134 @@ package Pages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import java.time.Duration;
+import utils.Config;
 import org.testng.Assert;
 
-public class HomePage {
+public class HomePage extends BasePage {
 
-    private final WebDriver driver;
-
+    // ---------------------------
+    // Locators
+    // ---------------------------
     private final By loginLink = By.cssSelector("a[href='/login']");
     private final By featuredItemsSection = By.cssSelector(".features_items");
     private final By homePageLogo = By.cssSelector("img[alt='Website for automation practice']");
     private final By signUpLink = By.cssSelector("a[href='/login']");
-    private final By loggedInAsUserIcon = By.cssSelector("[class='fa fa-user']");
+    private final By loggedInAsUserText = By.xpath("//a[contains(text(),'Logged in as')]");
     private final By logoutLink = By.cssSelector("a[href='/logout']");
     private final By deleteAccountLink = By.cssSelector("a[href='/delete_account']");
     private final By accountDeletedMessage = By.xpath("//h2[@data-qa='account-deleted']");
     private final By continueButton = By.xpath("//a[@data-qa='continue-button']");
     private final By contactUsLink = By.cssSelector("a[href='/contact_us']");
     private final By productsLink = By.cssSelector("a[href='/products']");
+    private final By contactUsHeader = By.xpath("//*[contains(text(),'Get In Touch')]");
+    private final By allProductsHeader = By.cssSelector(".features_items h2.title.text-center");
 
-    public HomePage(WebDriver driver) {
-        this.driver = driver;
+    // ---------------------------
+    // Constructor
+    // ---------------------------
+    public HomePage(WebDriver driver, Duration timeout) {
+        super(driver, timeout);
     }
 
+    // ---------------------------
     // Actions
-
+    // ---------------------------
     public void navigateToHomePage() {
-        driver.navigate().to("https://automationexercise.com/");
+        driver.get(Config.getBaseUrl());
+        waitForVisible(featuredItemsSection);
     }
 
-    public void clickLoginLink() {
-        driver.findElement(loginLink).click();
+    public void clickLoginLink() { waitAndClick(loginLink); }
+    public void clickLogoutButton() { waitAndClick(logoutLink); }
+    public void clickDeleteAccountButton() { waitAndClick(deleteAccountLink); }
+    public void clickContinueButton() { waitAndClick(continueButton); }
+    public void clickContactUsLink() { waitAndClick(contactUsLink); }
+    public void clickProductsLink() { waitAndClick(productsLink); }
+    public void clickHomeLogo() { waitAndClick(homePageLogo); }
+
+    // ---------------------------
+    // State/Getters (helper)
+    // ---------------------------
+    public String getCurrentUrl() { return driver.getCurrentUrl(); }
+    public String getTitle() { return driver.getTitle(); }
+    public boolean isLoginLinkVisible() { return isVisible(loginLink); }
+    public boolean isSignUpLinkVisible() { return isVisible(signUpLink); }
+    public boolean isFeaturedItemsVisible() { return isVisible(featuredItemsSection); }
+    public boolean isHomePageLogoVisible() { return isVisible(homePageLogo); }
+    public boolean isLoggedInAsUserVisible() { return isVisible(loggedInAsUserText); }
+    public String getLoggedInAsUserText() { return safeGetText(loggedInAsUserText); }
+    public boolean isLogoutLinkVisible() { return isVisible(logoutLink); }
+    public boolean isAccountDeletedMessageVisible() { return isVisible(accountDeletedMessage); }
+
+    // ---------------------------
+    // Assertions
+    // ---------------------------
+    private String normalizeUrl(String url) {
+        if (url == null) return "";
+        return url.trim().replaceAll("/+$", "").toLowerCase();
     }
 
-    public void clickLogoutButton() {
-        driver.findElement(logoutLink).click();
+    public void assertOnHomePage() {
+        String current = getCurrentUrl();
+        String expected = Config.getBaseUrl();
+        Assert.assertEquals(normalizeUrl(current), normalizeUrl(expected),
+                "Expected to be on Home page, but URL was: " + current);
+        Assert.assertEquals(getTitle(), "Automation Exercise",
+                "Home page title is incorrect");
     }
 
-    public void clickDeleteAccountButton() {
-        driver.findElement(deleteAccountLink).click();
+    public void assertOnContactUsPage() {
+        String current = getCurrentUrl();
+        Assert.assertTrue(current.contains("/contact_us"),
+                "Contact Us URL incorrect. Current URL: " + current);
     }
 
-    public void clickContinueButton() {
-        driver.findElement(continueButton).click();
+    public void assertOnProductsPage() {
+        String current = getCurrentUrl();
+        Assert.assertTrue(current.contains("/products"),
+                "Products page URL is incorrect. Current URL: " + current);
     }
 
-    public void clickContactUsLink() {
-        driver.findElement(contactUsLink).click();
+    public void assertUserLoggedIn() {
+        Assert.assertTrue(isLoggedInAsUserVisible(), "User should be logged in");
     }
 
-    public void clickProductsLink() {
-        driver.findElement(productsLink).click();
+    public void assertUserLoggedOut() {
+        Assert.assertFalse(isLoggedInAsUserVisible(), "User should NOT be logged in");
     }
 
-    public void clickHomeLogo() {
-        driver.findElement(homePageLogo).click();
-    }
-
-    // Assertions / helpers
-
-    public void assertURL() {
-        Assert.assertEquals(
-                driver.getCurrentUrl(),
-                "https://automationexercise.com/",
-                "Home page URL is incorrect"
-        );
-    }
-
-    public void assertTitle() {
-        Assert.assertEquals(
-                driver.getTitle(),
-                "Automation Exercise",
-                "Home page title is incorrect"
-        );
+    public void assertLogoutVisible() {
+        Assert.assertTrue(isLogoutLinkVisible(), "Logout link should be visible");
     }
 
     public void assertLoginLinkVisible() {
-        Assert.assertTrue(
-                driver.findElement(loginLink).isDisplayed(),
-                "Login link is NOT visible"
-        );
+        Assert.assertTrue(isLoginLinkVisible(), "Login link should be visible");
     }
 
     public void assertFeaturedItemsVisible() {
-        Assert.assertTrue(
-                driver.findElement(featuredItemsSection).isDisplayed(),
-                "Featured items section is NOT visible"
-        );
+        Assert.assertTrue(isFeaturedItemsVisible(), "Featured items should be visible");
     }
 
-    public void assertHomePageLogoVisible() {
-        Assert.assertTrue(
-                driver.findElement(homePageLogo).isDisplayed(),
-                "Home page logo is NOT visible"
-        );
-    }
-
-    public void assertSignUpLinkVisible() {
-        Assert.assertTrue(
-                driver.findElement(signUpLink).isDisplayed(),
-                "Sign Up link is NOT visible"
-        );
-    }
-
-    public void assertLoggedInAsUserVisible() {
-        Assert.assertTrue(
-                driver.findElement(loggedInAsUserIcon).isDisplayed(),
-                "\"Logged in as user\" is NOT visible"
-        );
-    }
-
-    public void assertLogoutLinkVisible() {
-        Assert.assertTrue(
-                driver.findElement(logoutLink).isDisplayed(),
-                "Logout link is NOT visible"
-        );
-    }
-
-    public void assertHomePageLoadedAfterLogout() {
-        Assert.assertEquals(
-                driver.getCurrentUrl(),
-                "https://automationexercise.com/",
-                "Home page did NOT load after logout"
-        );
+    public void assertHomeLogoVisible() {
+        Assert.assertTrue(isHomePageLogoVisible(), "Home logo should be visible");
     }
 
     public void assertAccountDeletedMessageVisible() {
-        Assert.assertTrue(
-                driver.findElement(accountDeletedMessage).isDisplayed(),
-                "Account Deleted message is NOT visible"
-        );
+        Assert.assertTrue(isAccountDeletedMessageVisible(), "Account deleted message should be visible");
     }
 
-    public void assertLoginPageLoadedAfterLogout() {
-        Assert.assertEquals(
-                driver.getCurrentUrl(),
-                "https://automationexercise.com/login",
-                "Login page did NOT load after logout"
-        );
+    public void assertContactUsHeaderVisible() {
+        Assert.assertTrue(isVisible(contactUsHeader), "'Get In Touch' header should be visible on Contact Us page");
     }
 
-    public void assertHomePageLoadedAfterAccountDeletion() {
-        Assert.assertEquals(
-                driver.getCurrentUrl(),
-                "https://automationexercise.com/",
-                "Home page did NOT load after account deletion"
-        );
+    public void assertAllProductsHeaderVisible() {
+        Assert.assertTrue(isVisible(allProductsHeader), "'All Products' header should be visible on Products page");
     }
 
-    public boolean isLoggedInAsUserVisible() {
-        return !driver.findElements(loggedInAsUserIcon).isEmpty();
+    public void assertLoggedInUsernameSanitized() {
+        String loggedInText = getLoggedInAsUserText();
+        boolean containsDangerousChars = loggedInText.contains("@") || loggedInText.contains("#") || loggedInText.contains("!");
+        Assert.assertFalse(containsDangerousChars, "Logged in username must be sanitized, found: " + loggedInText);
     }
 }

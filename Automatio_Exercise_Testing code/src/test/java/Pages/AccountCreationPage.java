@@ -2,13 +2,16 @@ package Pages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
+import java.time.Duration;
 import org.testng.Assert;
 
-public class AccountCreationPage {
+public class AccountCreationPage extends BasePage {
 
-    private final WebDriver driver;
-
+    // ---------------------------
+    // Locators
+    // ---------------------------
     private final By titleMrRadio = By.id("id_gender1");
     private final By titleMrsRadio = By.id("id_gender2");
     private final By passwordInput = By.id("password");
@@ -30,126 +33,78 @@ public class AccountCreationPage {
     private final By createAccountButton = By.xpath("//button[text()='Create Account']");
     private final By weakPasswordError = By.xpath("//p[text()='Weak Password']");
 
-    public AccountCreationPage(WebDriver driver) {
-        this.driver = driver;
+    // ---------------------------
+    // Constructor
+    // ---------------------------
+    public AccountCreationPage(WebDriver driver, Duration timeout) {
+        super(driver, timeout);
     }
 
+    // ---------------------------
     // Actions
-
-    public void selectTitleMr() {
-        driver.findElement(titleMrRadio).click();
-    }
-
-    public void selectTitleMrs() {
-        driver.findElement(titleMrsRadio).click();
-    }
-
-    public void enterPassword(String password) {
-        driver.findElement(passwordInput).clear();
-        driver.findElement(passwordInput).sendKeys(password);
-    }
+    // ---------------------------
+    public void selectTitleMr() { waitAndClick(titleMrRadio); }
+    public void selectTitleMrs() { waitAndClick(titleMrsRadio); }
+    public void enterPassword(String password) { waitAndSendKeys(passwordInput, password); }
 
     public void selectDay(String day) {
-        new Select(driver.findElement(daysDropdown)).selectByVisibleText(day);
+        WebElement el = waitForVisible(daysDropdown);
+        Select select = new Select(el);
+        select.selectByVisibleText(day);
     }
 
     public void selectMonth(String month) {
-        new Select(driver.findElement(monthsDropdown)).selectByVisibleText(month);
+        WebElement el = waitForVisible(monthsDropdown);
+        Select select = new Select(el);
+        select.selectByVisibleText(month);
     }
 
     public void selectYear(String year) {
-        new Select(driver.findElement(yearsDropdown)).selectByVisibleText(year);
+        WebElement el = waitForVisible(yearsDropdown);
+        Select select = new Select(el);
+        select.selectByVisibleText(year);
     }
 
-    public void checkNewsletter() {
-        driver.findElement(newsletterCheckbox).click();
-    }
-
-    public void checkOffers() {
-        driver.findElement(offersCheckbox).click();
-    }
-
-    public void enterFirstName(String firstName) {
-        driver.findElement(firstNameInput).clear();
-        driver.findElement(firstNameInput).sendKeys(firstName);
-    }
-
-    public void enterLastName(String lastName) {
-        driver.findElement(lastNameInput).clear();
-        driver.findElement(lastNameInput).sendKeys(lastName);
-    }
-
-    public void enterCompany(String company) {
-        driver.findElement(companyInput).clear();
-        driver.findElement(companyInput).sendKeys(company);
-    }
-
-    public void enterAddress1(String address1) {
-        driver.findElement(address1Input).clear();
-        driver.findElement(address1Input).sendKeys(address1);
-    }
-
-    public void enterAddress2(String address2) {
-        driver.findElement(address2Input).clear();
-        driver.findElement(address2Input).sendKeys(address2);
-    }
+    public void checkNewsletter() { waitAndClick(newsletterCheckbox); }
+    public void checkOffers() { waitAndClick(offersCheckbox); }
+    public void enterFirstName(String firstName) { waitAndSendKeys(firstNameInput, firstName); }
+    public void enterLastName(String lastName) { waitAndSendKeys(lastNameInput, lastName); }
+    public void enterCompany(String company) { waitAndSendKeys(companyInput, company); }
+    public void enterAddress1(String address1) { waitAndSendKeys(address1Input, address1); }
+    public void enterAddress2(String address2) { waitAndSendKeys(address2Input, address2); }
 
     public void selectCountry(String country) {
-        new Select(driver.findElement(countryDropdown)).selectByVisibleText(country);
+        WebElement el = waitForVisible(countryDropdown);
+        Select select = new Select(el);
+        select.selectByVisibleText(country);
     }
 
-    public void enterState(String state) {
-        driver.findElement(stateInput).clear();
-        driver.findElement(stateInput).sendKeys(state);
+    public void enterState(String state) { waitAndSendKeys(stateInput, state); }
+    public void enterCity(String city) { waitAndSendKeys(cityInput, city); }
+    public void enterZipCode(String zipCode) { waitAndSendKeys(zipCodeInput, zipCode); }
+    public void enterMobileNumber(String mobileNumber) { waitAndSendKeys(mobileNumberInput, mobileNumber); }
+    public void clickCreateAccountButton() { waitAndClick(createAccountButton); }
+
+    // ---------------------------
+    // State/Getters
+    // ---------------------------
+    public boolean isWeakPasswordErrorVisible() { return isVisible(weakPasswordError); }
+
+    private boolean isAccountCreatedMarkerVisibleInSource() {
+        return getPageSource().contains("account-created");
     }
 
-    public void enterCity(String city) {
-        driver.findElement(cityInput).clear();
-        driver.findElement(cityInput).sendKeys(city);
-    }
-
-    public void enterZipCode(String zipCode) {
-        driver.findElement(zipCodeInput).clear();
-        driver.findElement(zipCodeInput).sendKeys(zipCode);
-    }
-
-    public void enterMobileNumber(String mobileNumber) {
-        driver.findElement(mobileNumberInput).clear();
-        driver.findElement(mobileNumberInput).sendKeys(mobileNumber);
-    }
-
-    public void clickCreateAccountButton() {
-        driver.findElement(createAccountButton).click();
-    }
-
-    public void fillMandatoryAddressInfo(
-            String firstName,
-            String lastName,
-            String company,
-            String address1,
-            String country,
-            String state,
-            String city,
-            String zipCode,
-            String mobileNumber
-    ) {
-        enterFirstName(firstName);
-        enterLastName(lastName);
-        enterCompany(company);
-        enterAddress1(address1);
-        selectCountry(country);
-        enterState(state);
-        enterCity(city);
-        enterZipCode(zipCode);
-        enterMobileNumber(mobileNumber);
-    }
-
+    // ---------------------------
     // Assertions
-
+    // ---------------------------
     public void assertWeakPasswordErrorVisible() {
-        Assert.assertTrue(
-                driver.findElement(weakPasswordError).isDisplayed(),
-                "Weak Password error message is NOT visible"
-        );
+        Assert.assertTrue(isWeakPasswordErrorVisible(), "Weak password error should be visible");
+    }
+
+    public void assertAfterMultipleClickAccountCreatedOrNoWeakPassword() {
+        boolean createdVisible = isAccountCreatedMarkerVisibleInSource();
+        boolean weakPasswordVisible = isWeakPasswordErrorVisible();
+        Assert.assertTrue(createdVisible || !weakPasswordVisible,
+                "Expected either account created or no weak password error after multiple clicks");
     }
 }

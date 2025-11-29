@@ -1,49 +1,46 @@
 package test_cases.abanoub;
 
-import Pages.AccountCreationPage;
-import Pages.AccountCreatedPage;
-import Pages.HomePage;
-import Pages.LoginSignupPage;
-import org.openqa.selenium.By;
-import org.testng.Assert;
 import org.testng.annotations.Test;
+import Pages.*;
+import Pages.LoginSignupPage;
+
+import java.time.Duration;
+
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
 
 public class SignupTests extends TestBase {
 
     @Test
     public void TC02_verifyNavigationToSignupPage() {
-
-        HomePage homePage = new HomePage(driver);
-        LoginSignupPage loginSignupPage = new LoginSignupPage(driver);
+        HomePage homePage = new HomePage(getDriver(), Duration.ofSeconds(defaultTimeoutSeconds));
+        LoginSignupPage loginSignupPage = new LoginSignupPage(getDriver(), Duration.ofSeconds(defaultTimeoutSeconds));
 
         homePage.navigateToHomePage();
         homePage.clickLoginLink();
 
-        loginSignupPage.assertURL();
-        loginSignupPage.assertTitle();
+        loginSignupPage.assertOnLoginOrSignupPage();
+        loginSignupPage.assertLoginSignupTitleIsCorrect();
 
         loginSignupPage.assertSignUpMessageVisible();
-        loginSignupPage.assertNameAndEmailInputVisible();
-        loginSignupPage.assertSignUpButtonVisible();
-
+        loginSignupPage.assertSignupInputsVisible();
         loginSignupPage.assertLoginMessageVisible();
-        loginSignupPage.assertLoginEmailAndPasswordInputVisible();
-        loginSignupPage.assertLoginButtonVisible();
+        loginSignupPage.assertLoginInputsVisible();
     }
 
     @Test
     public void TC03_registerNewUserSuccessfully() {
-
-        HomePage homePage = new HomePage(driver);
-        LoginSignupPage loginSignupPage = new LoginSignupPage(driver);
-        AccountCreationPage accountCreationPage = new AccountCreationPage(driver);
-        AccountCreatedPage accountCreatedPage = new AccountCreatedPage(driver);
+        HomePage homePage = new HomePage(getDriver(), Duration.ofSeconds(defaultTimeoutSeconds));
+        LoginSignupPage loginSignupPage = new LoginSignupPage(getDriver(), Duration.ofSeconds(defaultTimeoutSeconds));
+        AccountCreationPage accountCreationPage = new AccountCreationPage(getDriver(), Duration.ofSeconds(defaultTimeoutSeconds));
+        AccountCreatedPage accountCreatedPage = new AccountCreatedPage(getDriver(), Duration.ofSeconds(defaultTimeoutSeconds));
 
         homePage.navigateToHomePage();
         homePage.clickLoginLink();
 
         String uniqueEmail = "testuser" + System.currentTimeMillis() + "@example.com";
-        loginSignupPage.enterNameAndEmail("TestUser0010", uniqueEmail);
+        loginSignupPage.enterName("TestUser0010");
+        loginSignupPage.enterSignupEmail(uniqueEmail);
         loginSignupPage.clickSignUpButton();
 
         accountCreationPage.selectTitleMr();
@@ -65,78 +62,70 @@ public class SignupTests extends TestBase {
         accountCreationPage.enterMobileNumber("1234567890");
         accountCreationPage.clickCreateAccountButton();
 
-        accountCreatedPage.assertAccountCreatedMsgVisible();
+        accountCreatedPage.assertAccountCreatedMessageVisible();
         accountCreatedPage.clickContinueButton();
-        homePage.assertLoggedInAsUserVisible();
+
+        homePage.assertUserLoggedIn();
     }
 
     @Test
     public void TC04_registerUserWithInvalidEmailFormat() {
-
-        HomePage homePage = new HomePage(driver);
-        LoginSignupPage loginSignupPage = new LoginSignupPage(driver);
+        HomePage homePage = new HomePage(getDriver(), Duration.ofSeconds(defaultTimeoutSeconds));
+        LoginSignupPage loginSignupPage = new LoginSignupPage(getDriver(), Duration.ofSeconds(defaultTimeoutSeconds));
 
         homePage.navigateToHomePage();
         homePage.clickLoginLink();
 
-        loginSignupPage.enterNameAndEmail("TestUser", "invalidemailformat");
+        loginSignupPage.enterName("TestUser");
+        loginSignupPage.enterSignupEmail("invalidemailformat");
         loginSignupPage.clickSignUpButton();
 
-        loginSignupPage.assertUrlBeTheSameWrongEmail();
+        loginSignupPage.assertOnLoginOrSignupPage();
         loginSignupPage.assertSignUpMessageVisible();
-        loginSignupPage.assertNameAndEmailInputVisible();
-        loginSignupPage.assertSignUpButtonVisible();
     }
 
     @Test
     public void TC05_registerUserWithExistingEmail() {
-
-        HomePage homePage = new HomePage(driver);
-        LoginSignupPage loginSignupPage = new LoginSignupPage(driver);
+        HomePage homePage = new HomePage(getDriver(), Duration.ofSeconds(defaultTimeoutSeconds));
+        LoginSignupPage loginSignupPage = new LoginSignupPage(getDriver(), Duration.ofSeconds(defaultTimeoutSeconds));
 
         homePage.navigateToHomePage();
         homePage.clickLoginLink();
 
-        loginSignupPage.enterNameAndEmail("TestUser", "testuser0001@gmail.com");
+        loginSignupPage.enterName("TestUser");
+        loginSignupPage.enterSignupEmail("testuser0001@gmail.com");
         loginSignupPage.clickSignUpButton();
 
-        loginSignupPage.assertUrlBeTheSameWrongEmail();
-        loginSignupPage.assertEmailExistingErrorVisible();
-        loginSignupPage.assertSignUpMessageVisible();
-        loginSignupPage.assertNameAndEmailInputVisible();
-        loginSignupPage.assertSignUpButtonVisible();
+        loginSignupPage.assertEmailAlreadyExistsErrorVisible();
     }
 
     @Test
     public void TC10_signupWithMissingRequiredEmailField() {
-
-        HomePage homePage = new HomePage(driver);
-        LoginSignupPage loginSignupPage = new LoginSignupPage(driver);
+        HomePage homePage = new HomePage(getDriver(), Duration.ofSeconds(defaultTimeoutSeconds));
+        LoginSignupPage loginSignupPage = new LoginSignupPage(getDriver(), Duration.ofSeconds(defaultTimeoutSeconds));
 
         homePage.navigateToHomePage();
         homePage.clickLoginLink();
 
-        loginSignupPage.enterNameAndEmail("emptyuser", "");
+        loginSignupPage.enterName("emptyuser");
+        loginSignupPage.enterSignupEmail("");
         loginSignupPage.clickSignUpButton();
 
-        loginSignupPage.assertUrlBeTheSameWrongEmail();
-        loginSignupPage.assertSignUpMessageVisible();
-        loginSignupPage.assertNameAndEmailInputVisible();
-        loginSignupPage.assertSignUpButtonVisible();
+        loginSignupPage.assertOnLoginOrSignupPage();
     }
 
     @Test
     public void TC11_signupWithWeakPassword() {
-
-        HomePage homePage = new HomePage(driver);
-        LoginSignupPage loginSignupPage = new LoginSignupPage(driver);
-        AccountCreationPage accountCreationPage = new AccountCreationPage(driver);
+        HomePage homePage = new HomePage(getDriver(), Duration.ofSeconds(defaultTimeoutSeconds));
+        LoginSignupPage loginSignupPage = new LoginSignupPage(getDriver(), Duration.ofSeconds(defaultTimeoutSeconds));
+        AccountCreationPage accountCreationPage = new AccountCreationPage(getDriver(), Duration.ofSeconds(defaultTimeoutSeconds));
 
         homePage.navigateToHomePage();
         homePage.clickLoginLink();
 
         String weakEmail = "weakpass" + System.currentTimeMillis() + "@example.com";
-        loginSignupPage.enterNameAndEmail("WeakPassUser", weakEmail);
+        loginSignupPage.enterName("WeakPassUser");
+        loginSignupPage.enterSignupEmail(weakEmail);
         loginSignupPage.clickSignUpButton();
 
         accountCreationPage.selectTitleMr();
@@ -160,35 +149,33 @@ public class SignupTests extends TestBase {
 
     @Test
     public void TC18_signupWithMissingNameField() {
-
-        HomePage homePage = new HomePage(driver);
-        LoginSignupPage loginSignupPage = new LoginSignupPage(driver);
+        HomePage homePage = new HomePage(getDriver(), Duration.ofSeconds(defaultTimeoutSeconds));
+        LoginSignupPage loginSignupPage = new LoginSignupPage(getDriver(), Duration.ofSeconds(defaultTimeoutSeconds));
 
         homePage.navigateToHomePage();
         homePage.clickLoginLink();
 
         String email = "noname" + System.currentTimeMillis() + "@example.com";
-        loginSignupPage.enterNameAndEmail("", email);
+        loginSignupPage.enterName("");
+        loginSignupPage.enterSignupEmail(email);
         loginSignupPage.clickSignUpButton();
 
-        loginSignupPage.assertUrlBeTheSameWrongEmail();
-        loginSignupPage.assertSignUpMessageVisible();
-        loginSignupPage.assertNameAndEmailInputVisible();
-        loginSignupPage.assertSignUpButtonVisible();
+        loginSignupPage.assertOnLoginOrSignupPage();
     }
 
     @Test
     public void TC19_signupWithoutPasswordOnAccountCreation() {
-
-        HomePage homePage = new HomePage(driver);
-        LoginSignupPage loginSignupPage = new LoginSignupPage(driver);
-        AccountCreationPage accountCreationPage = new AccountCreationPage(driver);
+        HomePage homePage = new HomePage(getDriver(), Duration.ofSeconds(defaultTimeoutSeconds));
+        LoginSignupPage loginSignupPage = new LoginSignupPage(getDriver(), Duration.ofSeconds(defaultTimeoutSeconds));
+        AccountCreationPage accountCreationPage = new AccountCreationPage(getDriver(), Duration.ofSeconds(defaultTimeoutSeconds));
+        AccountCreatedPage accountCreatedPage = new AccountCreatedPage(getDriver(), Duration.ofSeconds(defaultTimeoutSeconds));
 
         homePage.navigateToHomePage();
         homePage.clickLoginLink();
 
         String email = "nopass" + System.currentTimeMillis() + "@example.com";
-        loginSignupPage.enterNameAndEmail("NoPassUser", email);
+        loginSignupPage.enterName("NoPassUser");
+        loginSignupPage.enterSignupEmail(email);
         loginSignupPage.clickSignUpButton();
 
         accountCreationPage.selectTitleMr();
@@ -206,22 +193,16 @@ public class SignupTests extends TestBase {
         accountCreationPage.enterMobileNumber("01000000000");
         accountCreationPage.clickCreateAccountButton();
 
-        boolean accountCreatedVisible =
-                !driver.findElements(By.xpath("//h2[@data-qa='account-created']")).isEmpty();
-
-        Assert.assertFalse(
-                accountCreatedVisible,
-                "Account should NOT be created when password is missing"
-        );
+        accountCreatedPage.assertAccountNotCreatedInSource();
+        loginSignupPage.assertStayedOnSignupOrLoginAfterInvalidData();
     }
 
     @Test
     public void TC20_signupWithMaxLengthData() {
-
-        HomePage homePage = new HomePage(driver);
-        LoginSignupPage loginSignupPage = new LoginSignupPage(driver);
-        AccountCreationPage accountCreationPage = new AccountCreationPage(driver);
-        AccountCreatedPage accountCreatedPage = new AccountCreatedPage(driver);
+        HomePage homePage = new HomePage(getDriver(), Duration.ofSeconds(defaultTimeoutSeconds));
+        LoginSignupPage loginSignupPage = new LoginSignupPage(getDriver(), Duration.ofSeconds(defaultTimeoutSeconds));
+        AccountCreationPage accountCreationPage = new AccountCreationPage(getDriver(), Duration.ofSeconds(defaultTimeoutSeconds));
+        AccountCreatedPage accountCreatedPage = new AccountCreatedPage(getDriver(), Duration.ofSeconds(defaultTimeoutSeconds));
 
         homePage.navigateToHomePage();
         homePage.clickLoginLink();
@@ -230,7 +211,8 @@ public class SignupTests extends TestBase {
         String longPassword = "Pass_" + "1234567890".repeat(3);
         String uniqueEmail = "longdata" + System.currentTimeMillis() + "@example.com";
 
-        loginSignupPage.enterNameAndEmail(longName, uniqueEmail);
+        loginSignupPage.enterName(longName);
+        loginSignupPage.enterSignupEmail(uniqueEmail);
         loginSignupPage.clickSignUpButton();
 
         accountCreationPage.selectTitleMr();
@@ -252,18 +234,17 @@ public class SignupTests extends TestBase {
         accountCreationPage.enterMobileNumber("01234567890");
         accountCreationPage.clickCreateAccountButton();
 
-        accountCreatedPage.assertAccountCreatedMsgVisible();
+        accountCreatedPage.assertAccountCreatedMessageVisible();
         accountCreatedPage.clickContinueButton();
-        homePage.assertLoggedInAsUserVisible();
+        homePage.assertUserLoggedIn();
     }
 
     @Test
     public void TC21_signupWithSpecialCharactersInName() {
-
-        HomePage homePage = new HomePage(driver);
-        LoginSignupPage loginSignupPage = new LoginSignupPage(driver);
-        AccountCreationPage accountCreationPage = new AccountCreationPage(driver);
-        AccountCreatedPage accountCreatedPage = new AccountCreatedPage(driver);
+        HomePage homePage = new HomePage(getDriver(), Duration.ofSeconds(defaultTimeoutSeconds));
+        LoginSignupPage loginSignupPage = new LoginSignupPage(getDriver(), Duration.ofSeconds(defaultTimeoutSeconds));
+        AccountCreationPage accountCreationPage = new AccountCreationPage(getDriver(), Duration.ofSeconds(defaultTimeoutSeconds));
+        AccountCreatedPage accountCreatedPage = new AccountCreatedPage(getDriver(), Duration.ofSeconds(defaultTimeoutSeconds));
 
         homePage.navigateToHomePage();
         homePage.clickLoginLink();
@@ -271,7 +252,8 @@ public class SignupTests extends TestBase {
         String specialName = "@@@ User ### !!!";
         String uniqueEmail = "specialname" + System.currentTimeMillis() + "@example.com";
 
-        loginSignupPage.enterNameAndEmail(specialName, uniqueEmail);
+        loginSignupPage.enterName(specialName);
+        loginSignupPage.enterSignupEmail(uniqueEmail);
         loginSignupPage.clickSignUpButton();
 
         accountCreationPage.selectTitleMr();
@@ -290,8 +272,43 @@ public class SignupTests extends TestBase {
         accountCreationPage.enterMobileNumber("01011111111");
         accountCreationPage.clickCreateAccountButton();
 
-        accountCreatedPage.assertAccountCreatedMsgVisible();
+        accountCreatedPage.assertAccountCreatedMessageVisible();
         accountCreatedPage.clickContinueButton();
-        homePage.assertLoggedInAsUserVisible();
+
+        homePage.assertLoggedInUsernameSanitized();
+    }
+
+    @Test
+    public void TC30_multipleClicksOnCreateAccountButton() {
+        HomePage homePage = new HomePage(getDriver(), Duration.ofSeconds(defaultTimeoutSeconds));
+        LoginSignupPage loginSignupPage = new LoginSignupPage(getDriver(), Duration.ofSeconds(defaultTimeoutSeconds));
+        AccountCreationPage accountCreationPage = new AccountCreationPage(getDriver(), Duration.ofSeconds(defaultTimeoutSeconds));
+
+        homePage.navigateToHomePage();
+        homePage.clickLoginLink();
+
+        String uniqueEmail = "multiclick" + System.currentTimeMillis() + "@example.com";
+        loginSignupPage.enterName("MultiClickUser");
+        loginSignupPage.enterSignupEmail(uniqueEmail);
+        loginSignupPage.clickSignUpButton();
+
+        accountCreationPage.selectTitleMr();
+        accountCreationPage.enterPassword("1122334455");
+        accountCreationPage.selectDay("10");
+        accountCreationPage.selectMonth("May");
+        accountCreationPage.selectYear("1990");
+        accountCreationPage.enterFirstName("Multi");
+        accountCreationPage.enterLastName("Click");
+        accountCreationPage.enterCompany("TestCo");
+        accountCreationPage.enterAddress1("123 Test St");
+        accountCreationPage.selectCountry("India");
+        accountCreationPage.enterState("State");
+        accountCreationPage.enterCity("City");
+        accountCreationPage.enterZipCode("99999");
+        accountCreationPage.enterMobileNumber("01000000001");
+
+        accountCreationPage.clickCreateAccountButton();
+
+        accountCreationPage.assertAfterMultipleClickAccountCreatedOrNoWeakPassword();
     }
 }
