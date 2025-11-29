@@ -6,6 +6,8 @@ This repository contains the collected test artifacts produced by our QA team du
 > https://demo.opencart.com/
 and the **end-points of Automation Exercise website**:
 > https://automationexercise.com/api_list
+and the **Automation Test and Performance Test**:
+> https://automationexercise.com
 
 Our efforts focused on planning, executing, and documenting test cycles to ensure the platform's functionality, usability, and quality.
 
@@ -30,6 +32,8 @@ Our efforts focused on planning, executing, and documenting test cycles to ensur
 ## 📂 Test Artifacts
 Below are the main testing deliverables associated with the project:
 
+### ✅ Performance Test and Its report
+> [The performance Test data on Google Drive](https://drive.google.com/file/d/1QuWXuG6mf-l_CqwQg-4WDfurFoA4mdmy/view?usp=sharing )
 
 ### ✅ Test Plan
 A full documented Test Plan describing project scope, strategy, test items, environments, schedules, and responsibilities.

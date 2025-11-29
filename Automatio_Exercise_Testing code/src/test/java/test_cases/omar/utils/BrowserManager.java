@@ -1,0 +1,42 @@
+package test_cases.omar.utils;
+
+import io.github.bonigarcia.wdm.WebDriverManager;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
+
+import java.io.IOException;
+
+public class BrowserManager {
+
+    public static WebDriver doBrowserSetup() throws IOException {
+
+        WebDriverManager.chromedriver().setup();
+        WebDriver driver = new ChromeDriver();
+        String name = PropertiesLoader.loadProperty("browser.name");
+        if (name.equalsIgnoreCase("Chrome")) {
+
+            String pathExtension = PropertiesLoader.loadProperty("chrome.extension.adblock.path");
+
+            ChromeOptions chromeOptions = new ChromeOptions();
+
+            // Only use ONE of these
+            // chromeOptions.addArguments("--headless=new"); // if you want headless
+            chromeOptions.addArguments("start-maximized");
+
+            if (pathExtension != null && !pathExtension.isEmpty()) {
+                chromeOptions.addArguments("load-extension=" + pathExtension);
+            }
+
+            driver = new ChromeDriver(chromeOptions);
+        } else if (name.equalsIgnoreCase("Firefox")) {
+            FirefoxOptions firefoxOptions = new FirefoxOptions();
+            firefoxOptions.addArguments("--headless");
+            firefoxOptions.addArguments("--private");
+            driver = new FirefoxDriver(firefoxOptions);
+        }
+        return driver;
+    }
+}

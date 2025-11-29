@@ -31,6 +31,9 @@ public class HomePage extends BasePage {
     public HomePage(WebDriver driver, Duration timeout) {
         super(driver, timeout);
     }
+    public HomePage(WebDriver driver) {
+        this(driver, Duration.ofSeconds(Config.getTimeoutSeconds() > 0 ? Config.getTimeoutSeconds() : 10));
+    }
 
     // ---------------------------
     // Actions
@@ -112,7 +115,12 @@ public class HomePage extends BasePage {
     }
 
     public void assertHomeLogoVisible() {
-        Assert.assertTrue(isHomePageLogoVisible(), "Home logo should be visible");
+        // improved assertion with contextual message
+        try {
+            Assert.assertTrue(isHomePageLogoVisible(), "Home logo should be visible. Current URL: " + getCurrentUrl());
+        } catch (AssertionError e) {
+            throw new AssertionError("Home logo not visible. URL: " + getCurrentUrl() + " Title: " + getTitle(), e);
+        }
     }
 
     public void assertAccountDeletedMessageVisible() {

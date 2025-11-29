@@ -19,12 +19,17 @@ public class BasePage {
         return wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
     }
 
+    protected WebElement waitForClickable(By locator) {
+        return wait.until(ExpectedConditions.elementToBeClickable(locator));
+    }
+
     protected void waitAndClick(By locator) {
-        WebElement element = wait.until(ExpectedConditions.elementToBeClickable(locator));
+        WebElement element = waitForClickable(locator);
         try {
             element.click();
             waitForPageLoad();
         } catch (ElementClickInterceptedException e) {
+            // try scroll -> click -> JS fallback
             try {
                 ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
                 wait.until(ExpectedConditions.elementToBeClickable(element));
@@ -36,16 +41,12 @@ public class BasePage {
                 waitForPageLoad();
             } catch (Exception ex) {
                 try {
-                    try {
-                        ((JavascriptExecutor) driver).executeScript(
-                                "try{document.querySelectorAll(\"iframe[id^='aswift'], iframe[src*='doubleclick']\").forEach(i=>i.style.display='none');}catch(e){}"
-                        );
-                    } catch (Exception ignore) {}
-                    ((JavascriptExecutor) driver).executeScript("arguments[0].click();", element);
-                    waitForPageLoad();
-                } catch (Exception ignore) {
-                    throw e;
-                }
+                    ((JavascriptExecutor) driver).executeScript(
+                            "try{document.querySelectorAll(\"iframe[id^='aswift'], iframe[src*='doubleclick']\").forEach(i=>i.style.display='none');}catch(e){}"
+                    );
+                } catch (Exception ignore) {}
+                ((JavascriptExecutor) driver).executeScript("arguments[0].click();", element);
+                waitForPageLoad();
             }
         }
     }
@@ -79,7 +80,11 @@ public class BasePage {
     }
 
     protected String getPageSource() {
-        return driver.getPageSource();
+        try {
+            return driver.getPageSource();
+        } catch (Exception e) {
+            return "";
+        }
     }
 
     protected void waitForPageLoad() {
