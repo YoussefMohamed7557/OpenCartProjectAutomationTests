@@ -16,6 +16,7 @@
 
         <!-- Versions (unify here) -->
         <aspectj.version>1.9.19</aspectj.version>
+
         <selenium.version>4.38.0</selenium.version>
         <testng.version>7.7.1</testng.version>
         <ashot.version>1.5.4</ashot.version>
@@ -41,13 +42,24 @@
 
     <dependencies>
         <!-- Selenium -->
+
+        <selenium-version>4.38.0</selenium-version>
+        <testng-version>7.7.1</testng-version>
+        <ashot-version>1.5.4</ashot-version>
+        <allure-testng-version>2.21.0</allure-testng-version>
+        <log4j-version>2.20.0</log4j-version>
+        <extentreports-version>5.0.9</extentreports-version>
+        <maven-surefire-plugin-version>3.0.0</maven-surefire-plugin-version>
+        <slf4j-version>2.0.7</slf4j-version>
+    </properties>
+
+    <dependencies>
+
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-java</artifactId>
             <version>${selenium.version}</version>
         </dependency>
-
-        <!-- TestNG -->
         <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
@@ -55,21 +67,16 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- AShot -->
         <dependency>
             <groupId>ru.yandex.qatools.ashot</groupId>
             <artifactId>ashot</artifactId>
             <version>${ashot.version}</version>
         </dependency>
-
-        <!-- Allure TestNG -->
         <dependency>
             <groupId>io.qameta.allure</groupId>
             <artifactId>allure-testng</artifactId>
             <version>${allure.testng.version}</version>
         </dependency>
-
-        <!-- Logging -->
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-api</artifactId>
@@ -91,7 +98,10 @@
             <version>${slf4j.version}</version>
         </dependency>
 
+
         <!-- ExtentReports -->
+
+
         <dependency>
             <groupId>com.aventstack</groupId>
             <artifactId>extentreports</artifactId>
@@ -102,15 +112,21 @@
             <artifactId>annotations</artifactId>
             <version>24.1.0</version>
         </dependency>
-
-        <!-- Commons IO -->
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
             <version>2.11.0</version>
         </dependency>
 
-        <!-- Apache POI -->
+
+
+
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-api</artifactId>
+            <version>2.20.0</version>
+        </dependency>
+
         <dependency>
             <groupId>org.apache.poi</groupId>
             <artifactId>poi</artifactId>
@@ -121,16 +137,23 @@
             <artifactId>poi-ooxml</artifactId>
             <version>5.2.3</version>
         </dependency>
-
-        <!-- AspectJ -->
+        <dependency>
+            <groupId>io.qameta.allure</groupId>
+            <artifactId>allure-commandline</artifactId>
+            <version>2.21.0</version>
+            <type>pom</type>
+        </dependency>
         <dependency>
             <groupId>org.aspectj</groupId>
             <artifactId>aspectjweaver</artifactId>
-            <version>${aspectj.version}</version>
+            <version>1.9.19</version>
             <scope>runtime</scope>
         </dependency>
-
-        <!-- Lombok -->
+        <dependency>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-source-plugin</artifactId>
+            <version>3.2.1</version>
+        </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
@@ -138,19 +161,20 @@
             <scope>provided</scope>
         </dependency>
 
+
         <!-- JSON simple -->
+
         <dependency>
             <groupId>com.googlecode.json-simple</groupId>
             <artifactId>json-simple</artifactId>
             <version>1.1.1</version>
         </dependency>
-
-        <!-- WebDriverManager -->
         <dependency>
             <groupId>io.github.bonigarcia</groupId>
             <artifactId>webdrivermanager</artifactId>
             <version>5.9.2</version>
         </dependency>
+
 
         <!-- Cucumber (from BOM) -->
         <dependency>
@@ -163,11 +187,20 @@
             <artifactId>cucumber-testng</artifactId>
             <scope>test</scope>
         </dependency>
+
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-java</artifactId>
+            <version>4.20.0</version>
+        </dependency>
+
+
     </dependencies>
 
     <build>
         <plugins>
-            <!-- Compiler -->
+
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -178,7 +211,6 @@
                 </configuration>
             </plugin>
 
-            <!-- Surefire (TestNG runner) -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
@@ -192,6 +224,9 @@
                     <useSystemClassLoader>false</useSystemClassLoader>
                     <forkCount>1</forkCount>
                     <reuseForks>true</reuseForks>
+                    <argLine>
+                        -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
+                    </argLine>
                 </configuration>
                 <dependencies>
                     <dependency>
@@ -199,10 +234,14 @@
                         <artifactId>aspectjweaver</artifactId>
                         <version>${aspectj.version}</version>
                     </dependency>
-                </dependencies>
-            </plugin>
+
 
             <!-- Source plugin (optional) -->
+
+                </dependencies>
+
+            </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
@@ -217,7 +256,11 @@
                 </executions>
             </plugin>
 
+
             <!-- Allure Maven Plugin (optional) -->
+
+            <!-- Allure Maven Plugin -->
+
             <plugin>
                 <groupId>io.qameta.allure</groupId>
                 <artifactId>allure-maven</artifactId>
@@ -239,3 +282,4 @@
         </plugins>
     </build>
 </project>
+
