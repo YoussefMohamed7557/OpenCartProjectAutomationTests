@@ -5,7 +5,7 @@ import org.openqa.selenium.WebDriver;
 import java.time.Duration;
 import org.testng.Assert;
 
-public class AccountCreatedPage extends BasePage {
+public class AccountCreatedPage extends Pages.BasePage {
 
     // ---------------------------
     // Locators
