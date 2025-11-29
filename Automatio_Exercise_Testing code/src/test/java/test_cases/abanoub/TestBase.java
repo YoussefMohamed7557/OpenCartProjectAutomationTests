@@ -5,7 +5,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import utils.DriverFactory;
 import utils.Config;
-import listeners.ScreenshotListener;
+import test_cases.abanoub.listeners.ScreenshotListener;
 import io.qameta.allure.testng.AllureTestNg;
 
 import java.nio.file.Files;

@@ -1,10 +1,10 @@
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
 <suite name="AutomationExerciseSuite" verbose="1">
 
-    <listeners>
+    <test_cases.abanoub.listeners>
         <listener class-name="io.qameta.allure.testng.AllureTestNg"/>
-        <listener class-name="listeners.ScreenshotListener"/>
-    </listeners>
+        <listener class-name="test_cases.abanoub.listeners.ScreenshotListener"/>
+    </test_cases.abanoub.listeners>
 
     <test name="AutomationExerciseTests">
         <classes>

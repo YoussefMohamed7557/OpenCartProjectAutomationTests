@@ -1,4 +1,4 @@
-package Pages;
+package test_cases.abanoub.Pages;
 
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;

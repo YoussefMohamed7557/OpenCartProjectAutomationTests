@@ -1,7 +1,7 @@
 package StepDefs;
 
 import io.cucumber.java.en.*;
-import Pages.HomePage;
+import test_cases.abanoub.Pages.HomePage;
 import utils.Config;
 
 public class Home_StepDef {

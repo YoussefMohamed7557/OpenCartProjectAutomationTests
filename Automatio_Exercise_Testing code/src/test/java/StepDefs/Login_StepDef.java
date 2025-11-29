@@ -1,8 +1,8 @@
 package StepDefs;
 
 import io.cucumber.java.en.*;
-import Pages.LoginSignupPage;
-import Pages.HomePage;
+import test_cases.abanoub.Pages.LoginSignupPage;
+import test_cases.abanoub.Pages.HomePage;
 import utils.Config;
 
 import java.time.Duration;
