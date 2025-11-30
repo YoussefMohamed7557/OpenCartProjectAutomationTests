@@ -40,7 +40,7 @@ reliability** across all applications using systematic QA methodologies.
 ### **Ereny Yacoub**                (QA Tester)
 ### **Ahmed Fathy**                 (QA Tester)
 
-### ------------------------------------------------------------------------
+------------------------------------------------------------------------
 
 ## 📂 Test Artifacts
 
@@ -80,11 +80,28 @@ https://github.com/YoussefMohamed7557/OpenCartProjectAutomationTests/blob/main/t
 ------------------------------------------------------------------------
 
 ### ✅ **API Test Collection**
-
-https://drive.google.com/file/d/1cfga9lhRMfwFuwAKcDrmG-NMQUgWHHyr/view
-
+> (https://drive.google.com/file/d/1cfga9lhRMfwFuwAKcDrmG-NMQUgWHHyr/view)
+### ✅ **The report of API bugs dicovered by Youssef p1**
+> (https://docs.google.com/spreadsheets/d/10rDN2aTXoL3GcHlb3_AyfrYVQwxNGjLr/edit?gid=580340158#gid=580340158)
+### ✅ **The report of API bugs dicovered by Youssef p2**
+> (https://docs.google.com/spreadsheets/d/10rDN2aTXoL3GcHlb3_AyfrYVQwxNGjLr/edit?gid=2032540591#gid=2032540591)
+### ✅ **The report of API bugs dicovered by Aba-Noub**
+> (https://docs.google.com/spreadsheets/d/1kES_2PlaRFUQ_KrtikNaiAl1zpj4KD2P/edit?gid=1353045990#gid=1353045990)
+### ✅ **The report of API bugs dicovered by Shrouk**
+> (https://docs.google.com/spreadsheets/d/1MHKQqtvBxnJpRnmESeg2ttnErrVYb2TE/edit?gid=1050426845#gid=1050426845)
+### ✅ **The report of API bugs dicovered by Ereny**
+> (https://docs.google.com/spreadsheets/d/1Jwf7uS4-mjl6vEti_yc8aQBjhcbec1EU/edit?gid=668807759#gid=668807759)
+------------------------------------------------------------------------
 ------------------------------------------------------------------------
 
+### ✅ **Manual Test bug Reports**
+### ✅ **The bug report of Search feature**
+> (https://docs.google.com/spreadsheets/d/1MuyI1KxTqw27FO-9osvq_GfkucgolSLo/edit?gid=774324744#gid=774324744)
+### ✅ **The bug report of SignIn, SignUp, Lougout and forgit password features**
+> (https://docs.google.com/spreadsheets/d/1bWhu7ck48RuPCKcmKU2-sa3DZcL7bWQR/edit?gid=964796744#gid=964796744)
+### ✅ **The bug report of Headers section**
+> (https://docs.google.com/spreadsheets/d/1MHKQqtvBxnJpRnmESeg2ttnErrVYb2TE/edit?gid=1050426845#gid=1050426845)
+------------------------------------------------------------------------
 ### ✅ **Automation Repository**
 
 https://github.com/YoussefMohamed7557/OpenCartProjectAutomationTests.git
