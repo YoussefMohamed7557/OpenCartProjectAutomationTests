@@ -1,5 +1,4 @@
 package test_cases.omar.test_base;
-
 import io.qameta.allure.Description;
 import io.qameta.allure.Step;
 import test_cases.omar.pages.CartPage;
@@ -11,7 +10,6 @@ import org.jetbrains.annotations.NotNull;
 import org.json.simple.parser.ParseException;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-
 import java.io.IOException;
 import java.util.List;
 
@@ -111,5 +109,5 @@ public class Search_Products_and_Verify_Cart_After_Login extends TestBasic {
                 .getEmptyCartSpan()
                 .getText();
         Assert.assertEquals(emptyCartText, "Cart is empty! Click here to buy products.", "Verify 'Cart is empty! Click here to buy products.' is visible");
-    }
+   }
 }

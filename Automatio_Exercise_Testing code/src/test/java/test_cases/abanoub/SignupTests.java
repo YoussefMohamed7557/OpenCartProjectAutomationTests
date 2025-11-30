@@ -1,8 +1,8 @@
 package test_cases.abanoub;
 
 import org.testng.annotations.Test;
-import Pages.*;
-import Pages.LoginSignupPage;
+import test_cases.abanoub.Pages.*;
+import test_cases.abanoub.Pages.LoginSignupPage;
 
 import java.time.Duration;
 

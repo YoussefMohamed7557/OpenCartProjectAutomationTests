@@ -1,10 +1,13 @@
 package StepDefs;
-
-import Pages.HomePage;
-import Pages.LoginSignupPage;
 import io.cucumber.java.en.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
+
+import io.cucumber.java.en.*;
+import test_cases.abanoub.Pages.LoginSignupPage;
+import test_cases.abanoub.Pages.HomePage;
+import utils.Config;
+
 
 import java.time.Duration;
 
