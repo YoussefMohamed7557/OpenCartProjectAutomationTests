@@ -47,7 +47,7 @@ reliability** across all applications using systematic QA methodologies.
 ### ✅ **Database Test Cases**
 
 Google Sheets with executed DB test cases:\
-https://docs.google.com/spreadsheets/d/1iUc7NF7Am6sMsxUEBZx5Yj8pj9QqYpyH/edit
+https://docs.google.com/spreadsheets/d/1iUc7NF7Am6sMsxUEBZx5Yj8pj9QqYpyH/edit?usp=sharing&ouid=104945560048387913326&rtpof=true&sd=true 
 
 ------------------------------------------------------------------------
 
