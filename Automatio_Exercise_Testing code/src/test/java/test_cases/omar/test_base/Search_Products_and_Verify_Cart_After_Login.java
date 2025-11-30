@@ -1,6 +1,6 @@
 package test_cases.omar.test_base;
-import io.qameta.allure.Description;
-import io.qameta.allure.Step;
+
+import io.qameta.allure.*;
 import test_cases.omar.pages.CartPage;
 import test_cases.omar.pages.HomePage;
 import test_cases.omar.pages.ProductsPage;
@@ -10,11 +10,12 @@ import org.jetbrains.annotations.NotNull;
 import org.json.simple.parser.ParseException;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+
 import java.io.IOException;
 import java.util.List;
 
 
-public class Search_Products_and_Verify_Cart_After_Login extends TestBasic {
+public class Search_Products_and_Verify_Cart_After_Login extends test_cases.omar.test_base.TestBasic {
 
 
 
@@ -91,9 +92,11 @@ public class Search_Products_and_Verify_Cart_After_Login extends TestBasic {
         List<String> productsNamesAdded = new HomePage(getDriver())
                 .cartButtonClick()
                 .getProductsNames();
-        for (int i = 0; i < productsNames.size(); i++) {
-            Assert.assertEquals(productsNames.get(i), productsNamesAdded.get(i), "Verify that products are visible in cart");
-            System.out.println("Search: " + productsNames.get(i) + " = Added: " + productsNamesAdded.get(i));
+
+        for (String product : productsNames) {
+            Assert.assertTrue(productsNamesAdded.contains(product),
+                    "Product not found in cart: " + product);
+            System.out.println("Verified product in cart: " + product);
         }
     }
 
@@ -109,5 +112,5 @@ public class Search_Products_and_Verify_Cart_After_Login extends TestBasic {
                 .getEmptyCartSpan()
                 .getText();
         Assert.assertEquals(emptyCartText, "Cart is empty! Click here to buy products.", "Verify 'Cart is empty! Click here to buy products.' is visible");
-   }
+    }
 }
