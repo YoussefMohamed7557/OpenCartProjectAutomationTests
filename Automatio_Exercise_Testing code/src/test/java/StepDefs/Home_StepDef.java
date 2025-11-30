@@ -1,97 +1,79 @@
 package StepDefs;
 
-import io.cucumber.java.en.*;
 import Pages.HomePage;
-import utils.Config;
+import Pages.LoginSignupPage;
+import io.cucumber.java.en.*;
+
+import java.time.Duration;
 
 public class Home_StepDef {
 
-    private HomePage homePage;
-
-    @When("the user navigates to the home page")
-    public void navigate_to_home() {
-        ensureHomePageInitialized();
-        homePage.navigateToHomePage();
+    private Duration getTimeout() {
+        int seconds = Hooks.getDefaultTimeoutSeconds();
+        return Duration.ofSeconds(seconds > 0 ? seconds : 10);
     }
 
     @Given("the user is on the home page")
-    public void user_on_home() {
-        ensureHomePageInitialized();
+    public void theUserIsOnTheHomePage() {
+        HomePage homePage = new HomePage(Hooks.getDriver(), getTimeout());
         homePage.navigateToHomePage();
+        homePage.assertOnHomePage();
     }
 
-    @Given("the user is on a non-home page")
-    public void user_on_non_home() {
-        if (Hooks.driver == null) throw new IllegalStateException("Hooks.driver is null");
-        Hooks.driver.get(Config.getBaseUrl() + "/products");
+    @And("the user navigates to the login page")
+    public void theUserNavigatesToTheLoginPage() {
+        HomePage homePage = new HomePage(Hooks.getDriver(), getTimeout());
+        LoginSignupPage loginSignupPage = new LoginSignupPage(Hooks.getDriver(), getTimeout());
+
+        homePage.clickLoginLink();
+        loginSignupPage.assertOnLoginOrSignupPage();
     }
 
-    @When("the user clicks the Contact Us button")
-    public void click_contact_us() {
-        ensureHomePageInitialized();
+    @Then("the home page should be displayed with logo, login link, and featured items")
+    public void theHomePageShouldBeDisplayedWithLogoLoginLinkAndFeaturedItems() {
+        HomePage homePage = new HomePage(Hooks.getDriver(), getTimeout());
+        homePage.assertOnHomePage();
+        homePage.assertHomeLogoVisible();
+        homePage.assertLoginLinkVisible();
+        homePage.assertFeaturedItemsVisible();
+    }
+
+    @When("the user navigates to the Contact Us page")
+    public void theUserNavigatesToTheContactUsPage() {
+        HomePage homePage = new HomePage(Hooks.getDriver(), getTimeout());
         homePage.clickContactUsLink();
     }
 
-    @When("the user clicks the Products link")
-    public void click_products() {
-        ensureHomePageInitialized();
-        homePage.clickProductsLink();
-    }
-
-    @When("the user clicks the site logo")
-    public void click_logo() {
-        ensureHomePageInitialized();
-        homePage.clickHomeLogo();
-    }
-
-    @Then("the home page should be displayed")
-    public void verify_home_page() {
-        ensureHomePageInitialized();
-        homePage.assertOnHomePage();
-    }
-
-    @Then("the main header or logo should be visible")
-    public void verify_main_header_or_logo() {
-        ensureHomePageInitialized();
-        homePage.assertHomeLogoVisible();
-    }
-
     @Then("the Contact Us page should be displayed")
-    public void verify_contact_us() {
-        ensureHomePageInitialized();
+    public void theContactUsPageShouldBeDisplayed() {
+        HomePage homePage = new HomePage(Hooks.getDriver(), getTimeout());
         homePage.assertOnContactUsPage();
-    }
-
-    @Then("the contact form should be visible")
-    public void verify_contact_form() {
-        ensureHomePageInitialized();
         homePage.assertContactUsHeaderVisible();
     }
 
-    @Then("the Products page should be displayed")
-    public void verify_products_page() {
-        ensureHomePageInitialized();
-        homePage.assertOnProductsPage();
+    @When("the user navigates to the Products page")
+    public void theUserNavigatesToTheProductsPage() {
+        HomePage homePage = new HomePage(Hooks.getDriver(), getTimeout());
+        homePage.clickProductsLink();
     }
 
-    @Then("at least one product listing should be visible")
-    public void verify_products_visible() {
-        ensureHomePageInitialized();
+    @Then("the Products page should be displayed")
+    public void theProductsPageShouldBeDisplayed() {
+        HomePage homePage = new HomePage(Hooks.getDriver(), getTimeout());
+        homePage.assertOnProductsPage();
         homePage.assertAllProductsHeaderVisible();
     }
 
-    @Then("the user should be redirected to the home page")
-    public void redirected_home() {
-        ensureHomePageInitialized();
-        homePage.assertOnHomePage();
+    @When("the user clicks the home logo")
+    public void theUserClicksTheHomeLogo() {
+        HomePage homePage = new HomePage(Hooks.getDriver(), getTimeout());
+        homePage.clickHomeLogo();
     }
 
-    // helper
-    private void ensureHomePageInitialized() {
-        if (Hooks.driver == null) throw new IllegalStateException("Hooks.driver is null");
-        if (homePage == null) {
-            // HomePage(WebDriver) constructor must exist (we discussed adding the single-arg ctor)
-            homePage = new HomePage(Hooks.driver);
-        }
+    @Then("the user should be on the home page again")
+    public void theUserShouldBeOnTheHomePageAgain() {
+        HomePage homePage = new HomePage(Hooks.getDriver(), getTimeout());
+        homePage.assertOnHomePage();
+        homePage.assertHomeLogoVisible();
     }
 }

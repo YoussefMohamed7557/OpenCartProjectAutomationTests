@@ -1,151 +1,75 @@
 package StepDefs;
 
-import io.cucumber.java.en.*;
-import Pages.LoginSignupPage;
 import Pages.HomePage;
-import utils.Config;
+import Pages.LoginSignupPage;
+import io.cucumber.java.en.*;
+import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 
 import java.time.Duration;
 
 public class Login_StepDef {
 
-    private LoginSignupPage loginPage;
-    private HomePage homePage;
-    private final Duration timeout = Duration.ofSeconds(Math.max(5, Config.getTimeoutSeconds()));
-
-    // Replace with real valid credentials if you want
-    private final String VALID_EMAIL = "test@example.com";
-    private final String VALID_PASSWORD = "123456";
-
-    @Given("the user is on the login page")
-    public void user_on_login_page() {
-        if (Hooks.driver == null) throw new IllegalStateException("Hooks.driver is null");
-        loginPage = new LoginSignupPage(Hooks.driver, timeout);
-        Hooks.driver.get(Config.getBaseUrl() + "/login");
-        loginPage.assertOnLoginOrSignupPage();
+    private Duration getTimeout() {
+        int seconds = Hooks.getDefaultTimeoutSeconds();
+        return Duration.ofSeconds(seconds > 0 ? seconds : 10);
     }
 
-    @When("the user enters valid credentials")
-    public void user_enters_valid_credentials() {
-        loginPage.enterLoginEmail(VALID_EMAIL);
-        loginPage.enterLoginPassword(VALID_PASSWORD);
-    }
-
-    @When("the user enters invalid credentials")
-    public void user_enters_invalid_credentials() {
-        loginPage.enterLoginEmail("invalid@example.com");
-        loginPage.enterLoginPassword("wrongpass");
-    }
-
-    @When("the user submits the login form")
-    public void user_submits_login_form() {
-        loginPage.clickLoginButton();
+    @When("the user logs in with email {string} and password {string}")
+    public void theUserLogsInWithEmailAndPassword(String email, String password) {
+        LoginSignupPage loginPage = new LoginSignupPage(Hooks.getDriver(), getTimeout());
+        loginPage.login(email, password);
     }
 
     @Then("the user should be logged in")
-    public void user_should_be_logged_in() {
-        homePage = new HomePage(Hooks.driver, timeout);
+    public void theUserShouldBeLoggedIn() {
+        HomePage homePage = new HomePage(Hooks.getDriver(), getTimeout());
         homePage.assertUserLoggedIn();
     }
 
-    @Then("the \"Logged in as\" text should be visible")
-    public void logged_in_as_text_visible() {
-        homePage = new HomePage(Hooks.driver, timeout);
-        homePage.assertLoggedInUsernameSanitized();
+    @Then("the logout link should be visible")
+    public void theLogoutLinkShouldBeVisible() {
+        HomePage homePage = new HomePage(Hooks.getDriver(), getTimeout());
         homePage.assertLogoutVisible();
     }
 
-    @Then("an authentication error should be displayed")
-    public void authentication_error_displayed() {
+    @Then("an incorrect credentials error should be visible")
+    public void anIncorrectCredentialsErrorShouldBeVisible() {
+        LoginSignupPage loginPage = new LoginSignupPage(Hooks.getDriver(), getTimeout());
         loginPage.assertWrongCredentialsErrorVisible();
     }
 
-    @Given("the user account has been deleted")
-    public void user_account_deleted() {
-        // placeholder: if you have an API/helper to delete account, call it here
+    @Then("the user should stay on the login page")
+    public void theUserShouldStayOnTheLoginPage() {
+        LoginSignupPage loginPage = new LoginSignupPage(Hooks.getDriver(), getTimeout());
+        loginPage.assertOnLoginOrSignupPage();
     }
 
-    @When("the user attempts to login with deleted credentials")
-    public void login_with_deleted_credentials() {
-        if (loginPage == null) loginPage = new LoginSignupPage(Hooks.driver, timeout);
-        loginPage.enterLoginEmail("deleted@example.com");
-        loginPage.enterLoginPassword("somepass");
-        loginPage.clickLoginButton();
+    @When("the user enters email {string} and password {string} and submits with Enter key")
+    public void theUserEntersEmailAndPasswordAndSubmitsWithEnterKey(String email, String password) {
+        LoginSignupPage loginPage = new LoginSignupPage(Hooks.getDriver(), getTimeout());
+        loginPage.enterLoginEmail(email);
+        loginPage.enterLoginPassword(password);
+        Hooks.getDriver()
+                .findElement(By.xpath("//input[@data-qa='login-password']"))
+                .sendKeys(Keys.ENTER);
     }
 
-    @Then("login should fail with account not found message")
-    public void login_fail_account_not_found() {
-        loginPage.assertWrongCredentialsErrorVisible();
-    }
+    @When("the user attempts to login {int} times with email {string} and wrong passwords")
+    public void theUserAttemptsToLoginTimesWithEmailAndWrongPasswords(Integer attempts, String email) {
+        LoginSignupPage loginPage = new LoginSignupPage(Hooks.getDriver(), getTimeout());
 
-    @When("the user submits the login form with empty fields")
-    public void submit_empty_login() {
-        if (loginPage == null) loginPage = new LoginSignupPage(Hooks.driver, timeout);
-        loginPage.enterLoginEmail("");
-        loginPage.enterLoginPassword("");
-        loginPage.clickLoginButton();
-    }
-
-    @Then("validation errors should be shown for required fields")
-    public void validation_errors_shown() {
-        loginPage.assertStayedOnSignupOrLoginAfterInvalidData();
-    }
-
-    @When("the user enters credentials with leading or trailing spaces")
-    public void enter_credentials_with_spaces() {
-        if (loginPage == null) loginPage = new LoginSignupPage(Hooks.driver, timeout);
-        loginPage.enterLoginEmail("  " + VALID_EMAIL + "  ");
-        loginPage.enterLoginPassword("  " + VALID_PASSWORD + "  ");
-    }
-
-    @Then("login should normalize input and proceed or show invalid credentials")
-    public void login_normalize_or_invalid() {
-        loginPage.clickLoginButton();
-        try {
-            homePage = new HomePage(Hooks.driver, timeout);
-            homePage.assertUserLoggedIn();
-        } catch (AssertionError e) {
-            loginPage.assertWrongCredentialsErrorVisible();
-        }
-    }
-
-    @When("the user enters the username in uppercase and valid password")
-    public void enter_uppercase_username() {
-        if (loginPage == null) loginPage = new LoginSignupPage(Hooks.driver, timeout);
-        loginPage.enterLoginEmail(VALID_EMAIL.toUpperCase());
-        loginPage.enterLoginPassword(VALID_PASSWORD);
-    }
-
-    @Then("login should be case-insensitive for username if supported")
-    public void login_should_be_case_insensitive_for_username_if_supported() {
-        try {
-            homePage = new HomePage(Hooks.driver, timeout);
-            homePage.assertUserLoggedIn(); // success if site is case-insensitive
-        } catch (AssertionError e) {
-            loginPage.assertWrongCredentialsErrorVisible(); // otherwise show wrong creds
-        }
-    }
-
-    @When("the user fills credentials and presses Enter")
-    public void fill_and_press_enter() {
-        if (loginPage == null) loginPage = new LoginSignupPage(Hooks.driver, timeout);
-        loginPage.enterLoginEmail(VALID_EMAIL);
-        loginPage.enterLoginPassword(VALID_PASSWORD);
-        loginPage.pressEnterOnPassword();
-    }
-
-    @When("the user attempts multiple rapid failed logins")
-    public void multiple_rapid_failed_logins() {
-        if (loginPage == null) loginPage = new LoginSignupPage(Hooks.driver, timeout);
-        for (int i = 0; i < 5; i++) {
-            loginPage.enterLoginEmail("brute" + i + "@example.com");
-            loginPage.enterLoginPassword("wrong" + i);
+        for (int i = 0; i < attempts; i++) {
+            loginPage.enterLoginEmail(email);
+            loginPage.enterLoginPassword("wrongPassword_" + i);
             loginPage.clickLoginButton();
+            loginPage.assertWrongCredentialsErrorVisible();
+            loginPage.assertOnLoginOrSignupPage();
         }
     }
 
-    @Then("the application should either rate limit or record failed attempts")
-    public void app_rate_limit_or_record() {
-        loginPage.assertStayedOnSignupOrLoginAfterInvalidData();
+    @Then("an incorrect credentials error should be visible after each attempt")
+    public void anIncorrectCredentialsErrorShouldBeVisibleAfterEachAttempt() {
+        // already asserted inside the loop; this step is just for readability
     }
 }

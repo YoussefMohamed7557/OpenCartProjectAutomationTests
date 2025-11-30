@@ -1,57 +1,47 @@
 Feature: Login
 
   Background:
-    Given the browser is open
+    Given the user is on the home page
+    And the user navigates to the login page
 
   @TC06
-  Scenario: Login valid credentials
-    Given the user is on the login page
-    When the user enters valid credentials
-    And the user submits the login form
+  Scenario: Login with valid credentials
+    When the user logs in with email "1122334455@gmail.com" and password "1122334455"
     Then the user should be logged in
-    And the "Logged in as" text should be visible
+    And the logout link should be visible
 
   @TC07
-  Scenario: Invalid login
-    Given the user is on the login page
-    When the user enters invalid credentials
-    And the user submits the login form
-    Then an authentication error should be displayed
+  Scenario: Login with incorrect password
+    When the user logs in with email "1122334455@gmail.com" and password "wrongpassword"
+    Then an incorrect credentials error should be visible
+    And the user should stay on the login page
 
   @TC12
-  Scenario: Login after deletion
-    Given the user account has been deleted
-    When the user attempts to login with deleted credentials
-    Then login should fail with account not found message
+  Scenario: Login after account deletion
+    When the user logs in with email "deleteduser@gmail.com" and password "1122334455"
+    Then an incorrect credentials error should be visible
 
   @TC14
-  Scenario: Empty login
-    Given the user is on the login page
-    When the user submits the login form with empty fields
-    Then validation errors should be shown for required fields
+  Scenario: Login with empty fields
+    When the user logs in with email "" and password ""
+    Then the user should stay on the login page
 
-  @TC22
-  Scenario: Login with spaces
-    Given the user is on the login page
-    When the user enters credentials with leading or trailing spaces
-    And the user submits the login form
-    Then login should normalize input and proceed or show invalid credentials
-
-  @TC23
-  Scenario: Uppercase login
-    Given the user is on the login page
-    When the user enters the username in uppercase and valid password
-    And the user submits the login form
-    Then login should be case-insensitive for username if supported
-
-  @TC27
-  Scenario: Enter key login
-    Given the user is on the login page
-    When the user fills credentials and presses Enter
+  @TC22 @bug
+  Scenario: Login with spaces around credentials
+    When the user logs in with email " 1122334455@gmail.com " and password " 1122334455 "
     Then the user should be logged in
 
-  @TC31
-  Scenario: Brute force login (no rate limiting)
-    Given the user is on the login page
-    When the user attempts multiple rapid failed logins
-    Then the application should either rate limit or record failed attempts
+  @TC23 @bug
+  Scenario: Login with uppercase email
+    When the user logs in with email "1122334455@GMAIL.COM" and password "1122334455"
+    Then the user should be logged in
+
+  @TC27
+  Scenario: Login with Enter key
+    When the user enters email "1122334455@gmail.com" and password "1122334455" and submits with Enter key
+    Then the user should be logged in
+
+  @TC31 @bug
+  Scenario: No rate limiting on repeated failed login attempts
+    When the user attempts to login 15 times with email "1122334455@gmail.com" and wrong passwords
+    Then an incorrect credentials error should be visible after each attempt
