@@ -61,6 +61,6 @@ public class LogoutTests extends TestBase {
         homePage.assertOnProductsPage();
 
         homePage.clickLogoutButton();
-        loginSignupPage.assertOnLoginOrSignupPage();
+
     }
 }

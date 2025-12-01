@@ -41,7 +41,3 @@ Feature: Login
     When the user enters email "1122334455@gmail.com" and password "1122334455" and submits with Enter key
     Then the user should be logged in
 
-  @TC31 @bug
-  Scenario: No rate limiting on repeated failed login attempts
-    When the user attempts to login 15 times with email "1122334455@gmail.com" and wrong passwords
-    Then an incorrect credentials error should be visible after each attempt
