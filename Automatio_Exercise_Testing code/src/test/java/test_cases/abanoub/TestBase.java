@@ -34,7 +34,7 @@ public class TestBase {
         driver = DriverFactory.createDriver(browser);
         driver.manage().window().maximize();
 
-        // prefer explicit waits only — set implicit to 0 to avoid flaky waits
+
         try {
             driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(0));
             driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(Math.max(30, defaultTimeoutSeconds * 2)));

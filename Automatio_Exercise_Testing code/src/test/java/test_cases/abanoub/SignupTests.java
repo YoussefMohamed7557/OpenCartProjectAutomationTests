@@ -6,11 +6,21 @@ import test_cases.abanoub.Pages.LoginSignupPage;
 
 import java.time.Duration;
 
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertTrue;
+// ---------- Allure Annotations ----------
+import io.qameta.allure.Epic;
+import io.qameta.allure.Feature;
+import io.qameta.allure.Story;
+import io.qameta.allure.Severity;
+import io.qameta.allure.SeverityLevel;
+import io.qameta.allure.Description;
 
+@Epic("Authentication")
+@Feature("User Signup")
 public class SignupTests extends TestBase {
 
+    @Story("Navigate to signup/login page")
+    @Severity(SeverityLevel.MINOR)
+    @Description("Verify that navigation from home page to signup/login page works and both sections are visible.")
     @Test
     public void TC02_verifyNavigationToSignupPage() {
         HomePage homePage = new HomePage(getDriver(), Duration.ofSeconds(defaultTimeoutSeconds));
@@ -28,6 +38,9 @@ public class SignupTests extends TestBase {
         loginSignupPage.assertLoginInputsVisible();
     }
 
+    @Story("Register new user successfully")
+    @Severity(SeverityLevel.CRITICAL)
+    @Description("Validate that a new user can sign up with unique valid data, complete account creation form, and be logged in.")
     @Test
     public void TC03_registerNewUserSuccessfully() {
         HomePage homePage = new HomePage(getDriver(), Duration.ofSeconds(defaultTimeoutSeconds));
@@ -68,6 +81,9 @@ public class SignupTests extends TestBase {
         homePage.assertUserLoggedIn();
     }
 
+    @Story("Signup with invalid email format")
+    @Severity(SeverityLevel.NORMAL)
+    @Description("Verify that user cannot sign up with invalid email format and remains on the signup/login page.")
     @Test
     public void TC04_registerUserWithInvalidEmailFormat() {
         HomePage homePage = new HomePage(getDriver(), Duration.ofSeconds(defaultTimeoutSeconds));
@@ -84,6 +100,9 @@ public class SignupTests extends TestBase {
         loginSignupPage.assertSignUpMessageVisible();
     }
 
+    @Story("Signup with existing email")
+    @Severity(SeverityLevel.NORMAL)
+    @Description("Validate that the application shows an 'email already exists' error when signing up with an existing email.")
     @Test
     public void TC05_registerUserWithExistingEmail() {
         HomePage homePage = new HomePage(getDriver(), Duration.ofSeconds(defaultTimeoutSeconds));
@@ -99,6 +118,9 @@ public class SignupTests extends TestBase {
         loginSignupPage.assertEmailAlreadyExistsErrorVisible();
     }
 
+    @Story("Signup with missing email field")
+    @Severity(SeverityLevel.MINOR)
+    @Description("Ensure that when the email field is empty during signup, the user stays on the signup/login page.")
     @Test
     public void TC10_signupWithMissingRequiredEmailField() {
         HomePage homePage = new HomePage(getDriver(), Duration.ofSeconds(defaultTimeoutSeconds));
@@ -114,6 +136,9 @@ public class SignupTests extends TestBase {
         loginSignupPage.assertOnLoginOrSignupPage();
     }
 
+    @Story("Signup with weak password (BUG)")
+    @Severity(SeverityLevel.NORMAL)
+    @Description("BUG scenario: Validate behavior when the user completes account creation with a weak password and check if weak password error appears.")
     @Test
     public void TC11_signupWithWeakPassword() {
         HomePage homePage = new HomePage(getDriver(), Duration.ofSeconds(defaultTimeoutSeconds));
@@ -147,6 +172,9 @@ public class SignupTests extends TestBase {
         accountCreationPage.assertWeakPasswordErrorVisible();
     }
 
+    @Story("Signup with missing name field")
+    @Severity(SeverityLevel.MINOR)
+    @Description("Verify that signup with an empty name field keeps the user on the signup/login page.")
     @Test
     public void TC18_signupWithMissingNameField() {
         HomePage homePage = new HomePage(getDriver(), Duration.ofSeconds(defaultTimeoutSeconds));
@@ -163,6 +191,9 @@ public class SignupTests extends TestBase {
         loginSignupPage.assertOnLoginOrSignupPage();
     }
 
+    @Story("Signup without password on account creation")
+    @Severity(SeverityLevel.NORMAL)
+    @Description("Validate that the account is not created if the user submits the account creation form without a password.")
     @Test
     public void TC19_signupWithoutPasswordOnAccountCreation() {
         HomePage homePage = new HomePage(getDriver(), Duration.ofSeconds(defaultTimeoutSeconds));
@@ -197,6 +228,9 @@ public class SignupTests extends TestBase {
         loginSignupPage.assertStayedOnSignupOrLoginAfterInvalidData();
     }
 
+    @Story("Signup with max length data")
+    @Severity(SeverityLevel.NORMAL)
+    @Description("Verify that the system accepts maximum length values in signup and account creation fields and successfully creates an account.")
     @Test
     public void TC20_signupWithMaxLengthData() {
         HomePage homePage = new HomePage(getDriver(), Duration.ofSeconds(defaultTimeoutSeconds));
@@ -239,6 +273,9 @@ public class SignupTests extends TestBase {
         homePage.assertUserLoggedIn();
     }
 
+    @Story("Signup with special characters in name (BUG)")
+    @Severity(SeverityLevel.MINOR)
+    @Description("BUG scenario: Verify that signing up with special characters in the name is allowed and that the displayed username is sanitized.")
     @Test
     public void TC21_signupWithSpecialCharactersInName() {
         HomePage homePage = new HomePage(getDriver(), Duration.ofSeconds(defaultTimeoutSeconds));
@@ -278,6 +315,9 @@ public class SignupTests extends TestBase {
         homePage.assertLoggedInUsernameSanitized();
     }
 
+    @Story("Multiple clicks on Create Account button")
+    @Severity(SeverityLevel.NORMAL)
+    @Description("Verify that multiple clicks on the Create Account button do not crash the system and that either the account is created or no weak password error appears.")
     @Test
     public void TC30_multipleClicksOnCreateAccountButton() {
         HomePage homePage = new HomePage(getDriver(), Duration.ofSeconds(defaultTimeoutSeconds));
