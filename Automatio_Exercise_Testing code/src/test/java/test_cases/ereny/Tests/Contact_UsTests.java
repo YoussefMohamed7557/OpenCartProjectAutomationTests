@@ -12,7 +12,7 @@ import java.time.Duration;
 
 public class Contact_UsTests extends TestBase{
 
-
+    String path = "C:\\Users\\SABER-PC\\Downloads\\image.JPG";
     Contact_Us_Page contactUsPage;
 
     @Description("Test Case 6: Contact Us Form")
@@ -33,7 +33,7 @@ public class Contact_UsTests extends TestBase{
         contactUsPage= new Contact_Us_Page(driver);
         contactUsPage.Navigate();
         contactUsPage.ClickOnContactUs_Button();
-        contactUsPage.Contact_Us("Ereny","ereny@gmail.com","Ereny Yacoub","Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.","C:\\Users\\ereny\\OneDrive\\Pictures\\pexels-toni-cuenca-585752.jpg");
+        contactUsPage.Contact_Us("Ereny","ereny@gmail.com","Ereny Yacoub","Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",path);
         //driver.findElement(By.xpath("//input[@data-qa='submit-button']")).click();
         contactUsPage.ClickOnSubmit_Button();
     }
@@ -51,7 +51,7 @@ public class Contact_UsTests extends TestBase{
                 "ereny@gmail.com",
                 "Ereny Yacoub",
                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-                "C:\\Users\\ereny\\OneDrive\\Pictures\\pexels-toni-cuenca-585752.jpg"
+                path
         );
 
         new WebDriverWait(driver, Duration.ofSeconds(10))
@@ -84,7 +84,7 @@ public class Contact_UsTests extends TestBase{
                 "ereny@gmail.com",
                 "Ereny Yacoub",
                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-                "C:\\Users\\ereny\\OneDrive\\Pictures\\pexels-toni-cuenca-585752.jpg"
+                path
         );
 
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
