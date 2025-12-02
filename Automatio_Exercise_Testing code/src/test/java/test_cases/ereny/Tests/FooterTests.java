@@ -7,7 +7,7 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.testng.annotations.Test;
 
-public class TestCase10 extends TestBase{
+public class FooterTests extends TestBase{
 
 
     Footer_Page footerPage;

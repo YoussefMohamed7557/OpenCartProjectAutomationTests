@@ -4,7 +4,7 @@ import test_cases.ereny.Pages.TestCases_Page;
 import jdk.jfr.Description;
 import org.testng.annotations.Test;
 
-public class TestCase7 extends TestBase{
+public class TestCaseTests extends TestBase{
 
 
     TestCases_Page testCasesPage;

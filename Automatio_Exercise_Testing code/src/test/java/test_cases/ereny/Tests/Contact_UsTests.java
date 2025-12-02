@@ -10,7 +10,7 @@ import org.testng.annotations.Test;
 
 import java.time.Duration;
 
-public class TestCase6 extends TestBase{
+public class Contact_UsTests extends TestBase{
 
 
     Contact_Us_Page contactUsPage;

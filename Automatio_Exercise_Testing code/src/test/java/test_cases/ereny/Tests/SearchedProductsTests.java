@@ -4,7 +4,7 @@ import test_cases.ereny.Pages.Searched_Products_Page;
 import jdk.jfr.Description;
 import org.testng.annotations.Test;
 
-public class TestCase9 extends TestBase{
+public class SearchedProductsTests extends TestBase{
 
 
     Searched_Products_Page searchedProductsPage;
