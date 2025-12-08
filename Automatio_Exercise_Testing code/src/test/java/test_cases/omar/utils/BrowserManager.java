@@ -22,8 +22,7 @@ public class BrowserManager {
 
             ChromeOptions chromeOptions = new ChromeOptions();
 
-            // Only use ONE of these
-            // chromeOptions.addArguments("--headless=new"); // if you want headless
+
             chromeOptions.addArguments("start-maximized");
 
             if (pathExtension != null && !pathExtension.isEmpty()) {
