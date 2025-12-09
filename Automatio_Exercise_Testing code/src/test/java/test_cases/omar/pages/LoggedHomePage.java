@@ -10,6 +10,12 @@ public class LoggedHomePage {
     @FindBy(xpath = "//*[@id='header']/div/div/div/div[2]/div/ul/li[10]/a/b")
     private WebElement username;
 
+//    @FindBy(xpath = "//header/div/div/div/div[2]/div/ul/li[5]/a")
+//    private WebElement deleteAccountButton;
+//
+//    @FindBy(xpath = "//header/div/div/div/div[2]/div/ul/li[4]/a")
+//    private WebElement logoutButton;
+//
     private WebDriver driver;
 
     public LoggedHomePage(WebDriver driver) {
@@ -21,5 +27,13 @@ public class LoggedHomePage {
         return username;
     }
 
-
+//    public AccountDeletedPage deleteAccountButtonClick() {
+//        deleteAccountButton.click();
+//        return new AccountDeletedPage(driver);
+//    }
+//
+//    public LoginSignupPage logoutButtonClick() {
+//        logoutButton.click();
+//        return new LoginSignupPage(driver);
+//    }
 }

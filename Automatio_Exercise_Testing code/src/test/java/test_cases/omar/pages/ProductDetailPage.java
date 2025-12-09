@@ -33,8 +33,17 @@ public class ProductDetailPage  {
     @FindBy(xpath = "//section/div/div/div[2]/div[2]/div[2]/div/p[4]")
     private WebElement productBrand;
 
+//    @FindBy(id = "quantity")
+//    private WebElement quantityInput;
+//
+//    @FindBy(css = "button[class='btn btn-default cart']")
+//    private WebElement addToCartButton;
+//
     @FindBy(css = "a[href='/view_cart'] u")
     private WebElement viewCartButton;
+
+//    @FindBy(css = "a[href='#reviews']")
+//    private WebElement writeYourReview;
 
     @FindBy(id = "name")
     private WebElement yourNameInput;
@@ -48,6 +57,9 @@ public class ProductDetailPage  {
     @FindBy(id = "button-review")
     private WebElement submitButton;
 
+//    @FindBy(css = "div[class='alert-success alert'] span")
+//    private WebElement successMessage;
+//
     private WebDriver driver;
 //
     public ProductDetailPage(WebDriver driver) {
@@ -79,11 +91,26 @@ public class ProductDetailPage  {
         return productBrand;
     }
 //
+//    public ProductDetailPage increaseQuantity(String value) {
+//        quantityInput.clear();
+//        quantityInput.sendKeys(value);
+//        return this;
+//    }
+//
+//    public ProductDetailPage addToCartButtonClick() {
+//        addToCartButton.click();
+//        return this;
+//    }
+//
     public CartPage viewCartButtonClick() {
         SeleniumHelper.waitForElementToBeClickable(driver, viewCartButton);
         viewCartButton.click();
         return new CartPage(driver);
     }
+//
+//    public WebElement getWriteYourReview() {
+//        return writeYourReview;
+//    }
 //
     public ProductDetailPage fillReview() throws IOException, ParseException {
         yourNameInput.sendKeys(JSONReader.existingUser("name"));
@@ -95,4 +122,7 @@ public class ProductDetailPage  {
         return this;
     }
 //
+//    public WebElement getSuccessMessage() {
+//        return successMessage;
+//    }
 }

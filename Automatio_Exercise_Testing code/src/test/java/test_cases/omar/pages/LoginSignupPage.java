@@ -93,7 +93,7 @@ public class LoginSignupPage  {
         loginButton.click();
     }
 
-
+    // تقدر تستخدم دي في التستات بدل Enter_right_credentials لو حابب
     public LoggedHomePage fillCorrectLogin(String email, String password) {
         fillLogin(email, password);
         return new LoggedHomePage(driver);
